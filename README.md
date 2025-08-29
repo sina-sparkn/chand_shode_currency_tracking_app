@@ -5,6 +5,10 @@ Cheghad??? helps you quickly check the **latest exchange rates** with real-time 
 
 ---
 
+![Cheghad screenshot](./public/screenshot.png)
+
+---
+
 ![Cheghad Logo](./public/web-app-manifest-192x192.png)
 
 ---
@@ -15,10 +19,6 @@ Cheghad??? helps you quickly check the **latest exchange rates** with real-time 
 
 ---
 
-## 📸 Screenshots
-_(Add screenshots of your app here to showcase the UI)_
-
----
 
 ## 🚀 Getting Started
 
