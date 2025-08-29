@@ -52,12 +52,22 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4">
+    <div className="bg-background p-4">
       <div className="max-w-md mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-foreground">cheghad???</h1>
+            <div className="text-zinc-500">
+              made by{" "}
+              <a
+                className="hover:underline"
+                target="_blank"
+                href="https://github.com/sina-sparkn"
+              >
+                sina
+              </a>
+            </div>
           </div>
           {/* <Button
             variant="outline"
@@ -71,14 +81,12 @@ export default function HomePage() {
             />
           </Button> */}
         </div>
-
         {/* Currency Grid */}
         <CurrencyGrid
           currencies={currencies}
           onCurrencySelect={setSelectedCurrency}
           isLoading={isLoading}
         />
-
         {/* Currency Detail Drawer */}
         <CurrencyDrawer
           currency={selectedCurrency}
