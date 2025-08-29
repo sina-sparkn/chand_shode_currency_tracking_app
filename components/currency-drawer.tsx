@@ -102,10 +102,18 @@ export function CurrencyDrawer({
         <DrawerHeader className="flex mt-4 flex-row bg items-center justify-between space-y-0 pb-4">
           <div className="flex items-center gap-3">
             <div
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+              className="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center text-white font-bold"
               style={{ backgroundColor: currency.color }}
             >
-              {currency.icon}
+              {currency.icon.includes("http") ? (
+                <img
+                  src={currency.icon}
+                  alt={`${currency.symbol} icon`}
+                  className="min-w-14 h-full"
+                />
+              ) : (
+                currency.icon
+              )}
             </div>
             <div>
               <SheetTitle className="text-foreground">

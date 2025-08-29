@@ -17,9 +17,12 @@ export function CurrencyGrid({
 }: CurrencyGridProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 gap-3">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <Skeleton key={i} className="h-24 rounded-xl bg-card" />
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <Skeleton
+            key={i}
+            className="w-full aspect-square rounded-xl bg-card"
+          />
         ))}
       </div>
     );
@@ -27,7 +30,7 @@ export function CurrencyGrid({
 
   currencies;
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
       {currencies.map((currency) => (
         <div key={currency.symbol}>
           <CurrencyTile

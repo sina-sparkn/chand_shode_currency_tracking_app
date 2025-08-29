@@ -53,7 +53,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-background p-4">
-      <div className="max-w-md mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -70,11 +70,11 @@ export default function HomePage() {
             </div>
           </div>
           <Button
-            variant="outline"
+            variant="default"
             size="icon"
             onClick={fetchCurrencyData}
             disabled={isLoading}
-            className="border-border bg-transparent"
+            className="border border-zinc-800 bg-transparent rounded-full"
           >
             <RefreshCw
               className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}

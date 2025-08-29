@@ -2,7 +2,7 @@
 
 import type { CurrencyData } from "@/app/page";
 import { Card } from "@/components/ui/card";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Triangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CurrencyTileProps {
@@ -27,7 +27,7 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
   return (
     <Card
-      className="p-4 cursor-pointer transition-all duration-200 aspect-square bg-zinc-950 border border-zinc-800"
+      className="p-4 cursor-pointer transition-all hover:scale-[1.03] hover:border-zinc-700 duration-200 aspect-square bg-zinc-950 border border-zinc-800"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-2">
@@ -45,16 +45,16 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
         <div
           className={cn(
             "flex items-center gap-1",
-            isPositive ? "text-success" : "text-destructive"
+            isPositive ? "text-destructive" : "text-success"
           )}
         >
           {isPositive ? (
-            <TrendingUp className="w-3 h-3" />
+            <Triangle className="w-3 h-3 fill-destructive" />
           ) : (
-            <TrendingDown className="w-3 h-3" />
+            <Triangle className="w-3 h-3 rotate-180" />
           )}
           <span className="text-xs font-medium">
-            {Math.abs(currency.change_percent).toFixed(1)}%
+            {Math.abs(currency.change_value)}
           </span>
         </div>
       </div>
@@ -67,8 +67,9 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
           <span className="text-xs text-muted-foreground font-mono"></span>
         </div>
         <div className="flex items-center gap-2 flex-row-reverse text-left w-fit">
-          <div className="text-lg font-bold text-foreground">
-            {formatPrice(currency.price)}
+          <div className="text-2xl font-bold text-foreground">
+            {formatPrice(currency.price)}{" "}
+            <span className="text-zinc-500 text-[11px]">toman</span>
           </div>
         </div>
       </div>
