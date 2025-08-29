@@ -65,7 +65,7 @@ export default function HomePage() {
                 target="_blank"
                 href="https://github.com/sina-sparkn"
               >
-                sina
+                Sina zare
               </a>
             </div>
           </div>
