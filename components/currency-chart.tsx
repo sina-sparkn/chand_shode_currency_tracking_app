@@ -54,7 +54,7 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
               tickLine={false}
               axisLine={false}
               tick={false}
-              ticks={[averagePrice - 10000, averagePrice - 10001]}
+              ticks={[averagePrice, averagePrice - 1]}
             />
             <CartesianGrid vertical={false} />
             <ChartTooltip
