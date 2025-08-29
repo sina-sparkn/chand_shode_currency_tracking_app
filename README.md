@@ -4,12 +4,7 @@ A simple and modern **Currency Price Tracker App** built for Iranian users 🇮�
 Cheghad??? helps you quickly check the **latest exchange rates** with real-time updates, so you’ll always know the current value of currencies.
 
 ---
-
-## 🖼️ App Logo
-_(Place your app logo here by uploading it to the repo and updating the path below)_
-
-![Cheghad Logo](./public/logo.png)
-
+![Cheghad Logo](./public/web-app-manifest-192x192.png)
 ---
 
 ## ✨ Features
@@ -88,10 +83,7 @@ Simple, useful, and always up-to-date.
 
 ---
 
-## 🖼️ لوگوی اپلیکیشن
-_(لوگوی برنامه را اینجا قرار دهید. کافی است فایل لوگو را داخل ریپو آپلود کرده و مسیر زیر را تغییر دهید)_
-
-![لوگوی چه‌قدر](./public/logo.png)
+![لوگوی چه‌قدر](./public/web-app-manifest-192x192.png)
 
 ---
 
