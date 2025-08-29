@@ -67,9 +67,8 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
           <span className="text-xs text-muted-foreground font-mono"></span>
         </div>
         <div className="flex items-center gap-2 flex-row-reverse text-left w-fit">
-          <div className="text-2xl font-bold text-foreground">
+          <div className="text-2xl font-bold text-foreground flex">
             {formatPrice(currency.price)}{" "}
-            <span className="text-zinc-500 text-[11px]">toman</span>
           </div>
         </div>
       </div>
