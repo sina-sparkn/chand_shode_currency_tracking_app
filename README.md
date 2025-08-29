@@ -4,15 +4,14 @@ A simple and modern **Currency Price Tracker App** built for Iranian users 🇮�
 Cheghad??? helps you quickly check the **latest exchange rates** with real-time updates, so you’ll always know the current value of currencies.
 
 ---
+
 ![Cheghad Logo](./public/web-app-manifest-192x192.png)
+
 ---
 
 ## ✨ Features
 - 📈 **Live currency updates** (latest exchange rates)
-- 🔍 **Search & filter** specific currencies
-- 🌙 **Dark/Light mode** for better experience
 - ⚡ **Fast and lightweight** app
-- 🇮🇷 **Tailored for Iranian users**
 
 ---
 
@@ -72,9 +71,6 @@ This project is licensed under the **MIT License** – free to use, modify, and 
 Cheghad??? is made for **Iranian people** who want fast and reliable access to currency exchange rates.  
 Simple, useful, and always up-to-date.
 
----
-
----
 
 # چه‌قدر؟؟؟
 
@@ -89,16 +85,8 @@ Simple, useful, and always up-to-date.
 
 ## ✨ امکانات
 - 📈 **به‌روزرسانی لحظه‌ای قیمت ارزها**
-- 🔍 **جستجو و فیلتر ارزهای مختلف**
-- 🌙 **حالت تیره و روشن**
 - ⚡ **سبک و سریع**
-- 🇮🇷 **مخصوص کاربران ایرانی**
-
----
-
-## 📸 تصاویر
-_(در این بخش می‌توانید اسکرین‌شات‌هایی از برنامه قرار دهید)_
-
+  
 ---
 
 ## 🚀 شروع به کار
@@ -109,12 +97,12 @@ git clone https://github.com/your-username/cheghad.git
 cd cheghad
 ```
 
-### 2. نصب وابستگی‌ها
+### 2. نصب
 ```bash
 npm install
 ```
 
-### 3. اجرای سرور توسعه
+### 3. اجرای سرور 
 ```bash
 npm run dev
 ```
@@ -126,20 +114,16 @@ npm run dev
 - [Next.js](https://nextjs.org/) – فریم‌ورک ری‌اکت
 - [Tailwind CSS](https://tailwindcss.com/) – استایل‌دهی
 - [Shadcn UI](https://ui.shadcn.com/) – کامپوننت‌ها
-- API نرخ ارز (یا بک‌اند اختصاصی شما)
 
 ---
 
 ## 📦 دیپلوی
 شما می‌توانید چه‌قدر؟؟؟ را به‌سادگی روی این سرویس‌ها دیپلوی کنید:
 - [Vercel](https://vercel.com/) (پیشنهادی)
-- [Netlify](https://www.netlify.com/)
-
 ---
 
 ## 🤝 مشارکت
-مشارکت، گزارش باگ و درخواست ویژگی‌های جدید همیشه خوش‌آمدید!  
-کافی است ریپو را فورک کنید و Pull Request ارسال کنید.
+کافی است ریپو را فورک کنید Pull Request ارسال کنید.
 
 ---
 
