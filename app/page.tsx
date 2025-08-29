@@ -55,11 +55,11 @@ export default function HomePage() {
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-md mx-auto">
         {/* Header */}
-        <div className="flex flex-row-reverse items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">!چند شده؟</h1>
+            <h1 className="text-2xl font-bold text-foreground">cheghad???</h1>
           </div>
-          <Button
+          {/* <Button
             variant="outline"
             size="icon"
             onClick={fetchCurrencyData}
@@ -69,7 +69,7 @@ export default function HomePage() {
             <RefreshCw
               className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
             />
-          </Button>
+          </Button> */}
         </div>
 
         {/* Currency Grid */}

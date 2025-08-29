@@ -15,7 +15,7 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
   const formatPrice = (price: number) => {
     if (price >= 1000000) {
-      return (price / 1000000).toFixed(1) + "M";
+      return price.toLocaleString();
     } else if (price >= 1000) {
       return price.toLocaleString();
     }
@@ -41,7 +41,7 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
   return (
     <Card
-      className="p-4 cursor-pointer transition-all duration-200 aspect-square bg-card border-border"
+      className="p-4 cursor-pointer transition-all duration-200 aspect-square border"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-2">
@@ -70,14 +70,15 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
       <div className="space-y-1 mt-auto">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-muted-foreground">{currency.name}</span>
+          <span className="text-xs text-muted-foreground">
+            {currency.name_en}
+          </span>
           <span className="text-xs text-muted-foreground font-mono"></span>
         </div>
         <div className="flex items-center gap-2 flex-row-reverse text-left w-fit">
           <div className="text-lg font-bold text-foreground">
             {formatPrice(currency.price)}
           </div>
-          <span className="text-sm">تومان</span>{" "}
         </div>
       </div>
     </Card>

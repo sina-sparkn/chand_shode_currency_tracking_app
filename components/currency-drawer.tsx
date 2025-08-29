@@ -122,7 +122,7 @@ export function CurrencyDrawer({
           {/* Price Info */}
           <div className="space-y-2">
             <div className="text-3xl font-bold text-foreground">
-              {formatPrice(currency.price)} {currency.unit}
+              {formatPrice(currency.price)}
             </div>
             <div
               className={cn(
@@ -142,16 +142,15 @@ export function CurrencyDrawer({
               </span>
             </div>
             <div className="text-xs text-muted-foreground">
-              آخرین به روز رسانی: {currency.date} {currency.time}
+              latest update {currency.date} {currency.time}
             </div>
           </div>
 
           {/* Chart */}
           <div className="space-y-4">
             <CurrencyChart data={chartData} isLoading={isLoadingChart} />
-
             {/* Time Filter Buttons */}
-            {/* <div className="flex gap-2 justify-center">
+            {/* <div className="flex gap-2 justify-center mb-5">
               {timeFilters.map((filter) => (
                 <Button
                   key={filter}
@@ -161,9 +160,9 @@ export function CurrencyDrawer({
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
                   className={cn(
-                    "text-xs px-3 py-1",
+                    "text-xs px-3 py-1 hover:bg-zinc-600",
                     selectedTimeFilter === filter
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-zinc-700 text-primary-foreground"
                       : "border-border text-muted-foreground hover:text-foreground"
                   )}
                 >

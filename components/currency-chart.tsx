@@ -16,7 +16,7 @@ interface CurrencyChartProps {
 
 const chartConfig = {
   price: {
-    label: "قیمت",
+    label: "price",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
@@ -26,10 +26,15 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
     return <Skeleton className="w-full bg-card" />;
   }
 
-  const formatXAxisLabel = (tickItem: string) => {
-    const date = new Date(tickItem);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
+  // const formatYAxisLabel = (value: number) => {
+  //   if (value >= 1000000) {
+  //     return `${(value / 1000000).toFixed(1)}M`;
+  //   }
+  //   if (value >= 1000) {
+  //     return `${(value / 1000).toFixed(0)}K`;
+  //   }
+  //   return value.toLocaleString();
+  // };
 
   return (
     <div className="w-full">
@@ -39,11 +44,18 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
           data={data}
           margin={{
             left: 0,
-            right: 0,
+            right: 10,
             top: 12,
-            bottom: 20,
+            bottom: 30,
           }}
         >
+          <YAxis
+            tickLine={false}
+            axisLine={false}
+            tickMargin={16}
+            tickSize={1}
+            minTickGap={10}
+          />
           <CartesianGrid vertical={false} />
           <ChartTooltip
             cursor={false}
@@ -53,9 +65,10 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
           />
           <Line
             dataKey="price"
-            type="bumpX"
+            type="natural"
             stroke="lightgreen"
             strokeWidth={2}
+            height={100}
             dot={false}
           />
         </LineChart>

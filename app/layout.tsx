@@ -1,20 +1,19 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import "./globals.css";
 import localFont from "next/font/local";
+import { Quicksand } from "next/font/google";
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Currency Tracker",
-  description: "Track currency prices in real-time",
+  title: "cheghad???",
+  description: "Curreny tracker",
 };
-
-const myFont = localFont({
-  src: "./Vazirmatn[wght].woff2",
-});
 
 export default function RootLayout({
   children,
@@ -23,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={myFont.className}>
+      <body className={quicksand.className}>
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>
