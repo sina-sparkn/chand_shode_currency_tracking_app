@@ -70,11 +70,11 @@ export default function HomePage() {
             </div>
           </div>
           <Button
-            variant="default"
+            variant="outline"
             size="icon"
             onClick={fetchCurrencyData}
             disabled={isLoading}
-            className="border border-zinc-800 bg-transparent rounded-full"
+            className="border cursor-pointer border-zinc-800 bg-transparent rounded-full"
           >
             <RefreshCw
               className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
