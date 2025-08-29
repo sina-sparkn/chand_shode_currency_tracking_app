@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
-import type { CurrencyData } from "@/app/page"
-import { CurrencyTile } from "./currency-tile"
-import { Skeleton } from "@/components/ui/skeleton"
+import type { CurrencyData } from "@/app/page";
+import { CurrencyTile } from "./currency-tile";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface CurrencyGridProps {
-  currencies: CurrencyData[]
-  onCurrencySelect: (currency: CurrencyData) => void
-  isLoading: boolean
+  currencies: CurrencyData[];
+  onCurrencySelect: (currency: CurrencyData) => void;
+  isLoading: boolean;
 }
 
-export function CurrencyGrid({ currencies, onCurrencySelect, isLoading }: CurrencyGridProps) {
+export function CurrencyGrid({
+  currencies,
+  onCurrencySelect,
+  isLoading,
+}: CurrencyGridProps) {
   if (isLoading) {
     return (
       <div className="grid grid-cols-2 gap-3">
@@ -18,14 +22,21 @@ export function CurrencyGrid({ currencies, onCurrencySelect, isLoading }: Curren
           <Skeleton key={i} className="h-24 rounded-xl bg-card" />
         ))}
       </div>
-    )
+    );
   }
 
+  currencies;
   return (
     <div className="grid grid-cols-2 gap-3">
       {currencies.map((currency) => (
-        <CurrencyTile key={currency.symbol} currency={currency} onClick={() => onCurrencySelect(currency)} />
+        <div key={currency.symbol}>
+          <CurrencyTile
+            key={currency.symbol}
+            currency={currency}
+            onClick={() => onCurrencySelect(currency)}
+          />
+        </div>
       ))}
     </div>
-  )
+  );
 }

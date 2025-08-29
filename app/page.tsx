@@ -69,7 +69,7 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          {/* <Button
+          <Button
             variant="outline"
             size="icon"
             onClick={fetchCurrencyData}
@@ -79,7 +79,7 @@ export default function HomePage() {
             <RefreshCw
               className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
             />
-          </Button> */}
+          </Button>
         </div>
         {/* Currency Grid */}
         <CurrencyGrid

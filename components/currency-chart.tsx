@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useEffect, useState } from "react";
 
 interface CurrencyChartProps {
   data: Array<{ time: string; price: number }>;
@@ -26,53 +27,53 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
     return <Skeleton className="w-full bg-card" />;
   }
 
-  // const formatYAxisLabel = (value: number) => {
-  //   if (value >= 1000000) {
-  //     return `${(value / 1000000).toFixed(1)}M`;
-  //   }
-  //   if (value >= 1000) {
-  //     return `${(value / 1000).toFixed(0)}K`;
-  //   }
-  //   return value.toLocaleString();
-  // };
+  const [averagePrice, setAveragePrice] = useState<number>(0);
 
-  return (
-    <div className="w-full">
-      <ChartContainer config={chartConfig}>
-        <LineChart
-          accessibilityLayer
-          data={data}
-          margin={{
-            left: 0,
-            right: 10,
-            top: 12,
-            bottom: 30,
-          }}
-        >
-          <YAxis
-            tickLine={false}
-            axisLine={false}
-            tickMargin={16}
-            tickSize={1}
-            minTickGap={10}
-          />
-          <CartesianGrid vertical={false} />
-          <ChartTooltip
-            cursor={false}
-            content={
-              <ChartTooltipContent hideLabel className="flex w-fit gap-2" />
-            }
-          />
-          <Line
-            dataKey="price"
-            type="natural"
-            stroke="lightgreen"
-            strokeWidth={2}
-            height={100}
-            dot={false}
-          />
-        </LineChart>
-      </ChartContainer>
-    </div>
-  );
+  useEffect(() => {
+    const averagePrice =
+      data.reduce((sum, item) => sum + item.price, 0) / data.length;
+
+    setAveragePrice(averagePrice);
+  }, []);
+
+  {
+    return (
+      <div className="w-full">
+        <ChartContainer config={chartConfig}>
+          <LineChart
+            accessibilityLayer
+            data={data}
+            margin={{
+              left: -50,
+              right: 10,
+              top: 12,
+              bottom: 30,
+            }}
+          >
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tick={false}
+              ticks={[averagePrice - 10000, averagePrice - 10001]}
+            />
+            <CartesianGrid vertical={false} />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent hideLabel className="flex w-fit gap-2" />
+              }
+            />
+            <Line
+              dataKey="price"
+              type="natural"
+              stroke="lightgreen"
+              strokeWidth={2}
+              height={100}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </div>
+    );
+  }
 }

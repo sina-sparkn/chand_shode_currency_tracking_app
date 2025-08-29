@@ -25,31 +25,22 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
     }).format(price);
   };
 
-  const formatChange = (change: number) => {
-    const absChange = Math.abs(change);
-    if (absChange >= 1000000) {
-      return `${change >= 0 ? "+" : "-"}${(absChange / 1000000).toFixed(1)}M`;
-    } else if (absChange >= 1000) {
-      return `${change >= 0 ? "+" : "-"}${(absChange / 1000).toFixed(0)}K`;
-    }
-    return new Intl.NumberFormat("en-US", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-      signDisplay: "always",
-    }).format(change);
-  };
-
   return (
     <Card
-      className="p-4 cursor-pointer transition-all duration-200 aspect-square border"
+      className="p-4 cursor-pointer transition-all duration-200 aspect-square bg-zinc-950 border border-zinc-800"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-2">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-white"
-          style={{ backgroundColor: currency.color }}
-        >
-          {currency.icon}
+        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center border justify-center text-white">
+          {currency.icon.includes("http") ? (
+            <img
+              src={currency.icon}
+              alt={`${currency.symbol} icon`}
+              className="min-w-14 h-full"
+            />
+          ) : (
+            currency.icon
+          )}
         </div>
         <div
           className={cn(

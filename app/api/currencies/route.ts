@@ -5,23 +5,48 @@ const API_URL = `https://BrsApi.ir/Api/Market/Gold_Currency.php?key=${API_KEY}`;
 
 const currencyConfig = {
   // Currency symbols
-  USD: { name_en: "US Dollar", icon: "🇺🇸", color: "#3b82f6" },
-  EUR: { name_en: "Euro", icon: "🇪🇺", color: "#8b5cf6" },
-  GBP: { name_en: "British Pound", icon: "🇬🇧", color: "#ef4444" },
-  JPY: { name_en: "Japanese Yen", icon: "🇯🇵", color: "#f59e0b" },
-  AED: { name_en: "UAE Dirham", icon: "🇦🇪", color: "#10b981" },
-  USDT_IRT: { name_en: "Tether Dollar", icon: "₮", color: "#22c55e" },
+
+  USD: {
+    name_en: "US Dollar",
+    icon: "https://www.worldometers.info/img/flags/us-flag.gif",
+    color: "#3b82f6",
+  },
+  EUR: {
+    name_en: "Euro",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/2560px-Flag_of_Europe.svg.png",
+    color: "#8b5cf6",
+  },
+  GBP: {
+    name_en: "British Pound",
+    icon: "https://www.worldometers.info/img/flags/uk-flag.gif",
+    color: "#ef4444",
+  },
+  JPY: {
+    name_en: "Japanese Yen",
+    icon: "https://www.worldometers.info/img/flags/ja-flag.gif",
+    color: "#f59e0b",
+  },
+  AED: {
+    name_en: "UAE Dirham",
+    icon: "https://www.worldometers.info/img/flags/ae-flag.gif",
+    color: "#10b981",
+  },
+  USDT_IRT: {
+    name_en: "Tether Dollar",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/0/01/USDT_Logo.png",
+    color: "#22c55e",
+  },
 
   // Gold symbols
-  IR_GOLD_18K: { name_en: "18K Gold", icon: "🥇", color: "#eab308" },
-  IR_GOLD_24K: { name_en: "24K Gold", icon: "🏆", color: "#f59e0b" },
-  IR_GOLD_MELTED: { name_en: "Melted Gold", icon: "🔥", color: "#dc2626" },
-  XAUUSD: { name_en: "Gold Ounce", icon: "⚱️", color: "#ca8a04" },
+  IR_GOLD_18K: { name_en: "18K Gold", icon: "🪙", color: "#eab308" },
+  IR_GOLD_24K: { name_en: "24K Gold", icon: "🪙", color: "#f59e0b" },
+  IR_GOLD_MELTED: { name_en: "Melted Gold", icon: "🪙", color: "#dc2626" },
+  XAUUSD: { name_en: "Gold Ounce", icon: "🪙", color: "#ca8a04" },
   IR_COIN_1G: { name_en: "1g Coin", icon: "🪙", color: "#eab308" },
-  IR_COIN_QUARTER: { name_en: "Quarter Coin", icon: "🥉", color: "#f59e0b" },
-  IR_COIN_HALF: { name_en: "Half Coin", icon: "🥈", color: "#ca8a04" },
-  IR_COIN_EMAMI: { name_en: "Emami Coin", icon: "👑", color: "#dc2626" },
-  IR_COIN_BAHAR: { name_en: "Bahar Azadi Coin", icon: "🌸", color: "#ec4899" },
+  IR_COIN_QUARTER: { name_en: "Quarter Coin", icon: "🪙", color: "#f59e0b" },
+  IR_COIN_HALF: { name_en: "Half Coin", icon: "🪙", color: "#ca8a04" },
+  IR_COIN_EMAMI: { name_en: "Emami Coin", icon: "🪙", color: "#dc2626" },
+  IR_COIN_BAHAR: { name_en: "Bahar Azadi Coin", icon: "🪙", color: "#ec4899" },
 };
 
 export async function GET() {
