@@ -57,7 +57,9 @@ export default function HomePage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-foreground">cheghad???</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold  text-foreground">
+              cheghad???
+            </h1>
             <div className="text-zinc-500">
               made by{" "}
               <a
