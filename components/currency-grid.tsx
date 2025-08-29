@@ -1,0 +1,31 @@
+"use client"
+
+import type { CurrencyData } from "@/app/page"
+import { CurrencyTile } from "./currency-tile"
+import { Skeleton } from "@/components/ui/skeleton"
+
+interface CurrencyGridProps {
+  currencies: CurrencyData[]
+  onCurrencySelect: (currency: CurrencyData) => void
+  isLoading: boolean
+}
+
+export function CurrencyGrid({ currencies, onCurrencySelect, isLoading }: CurrencyGridProps) {
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-2 gap-3">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <Skeleton key={i} className="h-24 rounded-xl bg-card" />
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-cols-2 gap-3">
+      {currencies.map((currency) => (
+        <CurrencyTile key={currency.symbol} currency={currency} onClick={() => onCurrencySelect(currency)} />
+      ))}
+    </div>
+  )
+}
