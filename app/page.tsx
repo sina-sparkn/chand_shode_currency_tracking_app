@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { CurrencyGrid } from "@/components/currency-grid";
 import { CurrencyDrawer } from "@/components/currency-drawer";
-import { RefreshCw } from "lucide-react";
+import { ArrowUp, Github, RefreshCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export interface CurrencyData {
@@ -95,6 +95,29 @@ export default function HomePage() {
           isOpen={!!selectedCurrency}
           onClose={() => setSelectedCurrency(null)}
         />
+        <footer className="mt-16 border-t flex items-center justify-between py-5 pb-10">
+          <a
+            target="-blank"
+            href="https://github.com/sina-sparkn/chand_shode_currency_tracking_app"
+          >
+            <Button
+              variant={"outline"}
+              className="rounded-full border-zinc-800! cursor-pointer hover:scale-105 transition-all origin-left"
+            >
+              Give it a Star
+              <Star className="text-yellow-500 fill-yellow-500 " />
+            </Button>
+          </a>
+          <a href="#">
+            <Button
+              variant={"outline"}
+              className="rounded-full border-zinc-800! cursor-pointer"
+            >
+              back to top
+              <ArrowUp />
+            </Button>
+          </a>
+        </footer>
       </div>
     </div>
   );
