@@ -1,6 +1,14 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   type ChartConfig,
@@ -40,7 +48,7 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
     return (
       <div className="w-full">
         <ChartContainer config={chartConfig}>
-          <LineChart
+          <AreaChart
             accessibilityLayer
             data={data}
             margin={{
@@ -50,60 +58,28 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
               bottom: 30,
             }}
           >
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              ticks={[
-                averagePrice,
-                averagePrice / 1.05,
-                averagePrice / 1.05,
-                averagePrice + 1,
-              ]}
-            />
+            <YAxis tickLine={false} axisLine={false} />
             <CartesianGrid vertical={false} />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent hideLabel className="flex w-fit gap-2" />
-              }
-            />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.8}
-                />
+                <stop offset="5%" stopColor="lightgreen" stopOpacity={0.8} />
                 <stop
                   offset="95%"
                   stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
                   stopOpacity={0.1}
                 />
               </linearGradient>
             </defs>
-            <Line
-              fill="red"
-              fillOpacity={0.4}
+            <Area
               dataKey="price"
               type="natural"
+              fill="url(#fillDesktop)"
+              fillOpacity={0.4}
               stroke="lightgreen"
-              strokeWidth={2}
-              height={100}
-              dot={false}
+              stackId="a"
             />
-          </LineChart>
+          </AreaChart>
         </ChartContainer>
       </div>
     );

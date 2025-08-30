@@ -9,7 +9,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { X, TrendingUp, TrendingDown } from "lucide-react";
+import { X, TrendingUp, TrendingDown, Triangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CurrencyChart } from "./currency-chart";
 
@@ -99,7 +99,7 @@ export function CurrencyDrawer({
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent
         side="bottom"
-        className="pb-10 max-h-[80vh] bg-background rounded-t-3xl border-t-2 px-5"
+        className="pb-10 max-h-[80vh] bg-background rounded-t-3xl border-t px-5"
       >
         <SheetHeader className="flex flex-row items-center px-0 justify-between space-y-0">
           <div className="flex items-center gap-3">
@@ -126,9 +126,6 @@ export function CurrencyDrawer({
               </p>
             </div>
           </div>
-          {/* <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-4 w-4" />
-          </Button> */}
         </SheetHeader>
 
         <div className="space-y-6">
@@ -140,13 +137,13 @@ export function CurrencyDrawer({
             <div
               className={cn(
                 "flex items-center gap-2",
-                isPositive ? "text-success" : "text-destructive"
+                isPositive ? "text-destructive" : "text-success"
               )}
             >
               {isPositive ? (
-                <TrendingUp className="w-4 h-4" />
+                <Triangle className="w-4 h-4 fill-destructive" />
               ) : (
-                <TrendingDown className="w-4 h-4" />
+                <Triangle className="w-4 h-4 rotate-180 fill-success" />
               )}
               <span className="font-medium">
                 {currency.change_value >= 0 ? "+" : ""}
@@ -174,10 +171,10 @@ export function CurrencyDrawer({
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
                   className={cn(
-                    "text-xs px-3 py-1 rounded-full hover:bg-zinc-700",
+                    "text-xs px-3 py-1 rounded-full",
                     selectedTimeFilter === filter
-                      ? "bg-zinc-800 text-primary-foreground"
-                      : "border-border text-muted-foreground hover:text-foreground"
+                      ? "bg-zinc-600 text-primary-foreground"
+                      : "border-border text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
                 >
                   {filter}

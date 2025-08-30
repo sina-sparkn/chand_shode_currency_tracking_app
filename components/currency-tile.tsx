@@ -27,11 +27,11 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
   return (
     <Card
-      className="p-4 cursor-pointer transition-all hover:scale-[1.03] hover:border-zinc-700 duration-200 aspect-square bg-zinc-950 border border-zinc-800"
+      className="p-4 cursor-pointer transition-all hover:scale-[1.03] shadow-none duration-200 aspect-square bg-card border border-border"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-2">
-        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center border justify-center text-white">
+        <div className="w-10 h-10 rounded-full overflow-hidden flex items-center border justify-center text-zinc-900 dark:text-white">
           {currency.icon.includes("http") ? (
             <img
               src={currency.icon}
@@ -54,7 +54,7 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
             <Triangle className="w-3 h-3 rotate-180 fill-success" />
           )}
           <span className="text-xs font-medium ">
-            {Math.abs(currency.change_value)}
+            {Math.abs(currency.change_value).toLocaleString()}
           </span>
         </div>
       </div>

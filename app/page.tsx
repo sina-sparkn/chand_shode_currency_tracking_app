@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { CurrencyGrid } from "@/components/currency-grid";
 import { CurrencyDrawer } from "@/components/currency-drawer";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ArrowUp, Github, RefreshCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -60,7 +61,7 @@ export default function HomePage() {
             <h1 className="text-2xl sm:text-3xl font-bold  text-foreground">
               cheghad???
             </h1>
-            <div className="text-zinc-500">
+            <div className="text-muted-foreground">
               made by{" "}
               <a
                 className="hover:underline"
@@ -71,17 +72,20 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={fetchCurrencyData}
-            disabled={isLoading}
-            className="border cursor-pointer border-zinc-800 bg-transparent rounded-full"
-          >
-            <RefreshCw
-              className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-            />
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={fetchCurrencyData}
+              disabled={isLoading}
+              className="border cursor-pointer border-border bg-transparent rounded-full"
+            >
+              <RefreshCw
+                className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+              />
+            </Button>
+          </div>
         </div>
         {/* Currency Grid */}
         <CurrencyGrid
@@ -102,7 +106,7 @@ export default function HomePage() {
           >
             <Button
               variant={"outline"}
-              className="rounded-full border-zinc-800! cursor-pointer hover:scale-105 transition-all origin-left"
+              className="rounded-full border-border cursor-pointer hover:scale-105 transition-all origin-left"
             >
               Give it a Star
               <Star className="text-yellow-500 fill-yellow-500 " />
@@ -111,7 +115,7 @@ export default function HomePage() {
           <a href="#">
             <Button
               variant={"outline"}
-              className="rounded-full border-zinc-800! cursor-pointer"
+              className="rounded-full border-border cursor-pointer"
             >
               back to top
               <ArrowUp />
