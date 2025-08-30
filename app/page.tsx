@@ -92,7 +92,6 @@ export default function HomePage() {
                 />
               </Button>
             </div>
-            <PWAInstallButton />
           </div>
         </div>
 
@@ -123,6 +122,7 @@ export default function HomePage() {
               <Star className="text-yellow-500 fill-yellow-500 " />
             </Button>
           </a>
+          <PWAInstallButton />
           <a href="#">
             <Button
               variant={"outline"}
