@@ -44,7 +44,7 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
             accessibilityLayer
             data={data}
             margin={{
-              left: -50,
+              left: -52,
               right: 10,
               top: 12,
               bottom: 30,
@@ -53,8 +53,12 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={false}
-              ticks={[averagePrice, averagePrice - 1]}
+              ticks={[
+                averagePrice,
+                averagePrice / 1.05,
+                averagePrice / 1.05,
+                averagePrice + 1,
+              ]}
             />
             <CartesianGrid vertical={false} />
             <ChartTooltip
@@ -63,7 +67,35 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
                 <ChartTooltipContent hideLabel className="flex w-fit gap-2" />
               }
             />
+            <defs>
+              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-desktop)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-desktop)"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-mobile)"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-mobile)"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+            </defs>
             <Line
+              fill="red"
+              fillOpacity={0.4}
               dataKey="price"
               type="natural"
               stroke="lightgreen"

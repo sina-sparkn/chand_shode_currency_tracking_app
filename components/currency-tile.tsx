@@ -51,9 +51,9 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
           {isPositive ? (
             <Triangle className="w-3 h-3 fill-destructive" />
           ) : (
-            <Triangle className="w-3 h-3 rotate-180" />
+            <Triangle className="w-3 h-3 rotate-180 fill-success" />
           )}
-          <span className="text-xs font-medium">
+          <span className="text-xs font-medium ">
             {Math.abs(currency.change_value)}
           </span>
         </div>

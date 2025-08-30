@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { X, TrendingUp, TrendingDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CurrencyChart } from "./currency-chart";
-import { Drawer, DrawerContent, DrawerHeader } from "./ui/drawer";
 
 interface CurrencyDrawerProps {
   currency: CurrencyData | null;
@@ -97,9 +96,12 @@ export function CurrencyDrawer({
   };
 
   return (
-    <Drawer open={isOpen} onOpenChange={onClose}>
-      <DrawerContent className="bg-background border-border">
-        <DrawerHeader className="flex mt-4 flex-row bg items-center justify-between space-y-0 pb-4">
+    <Sheet open={isOpen} onOpenChange={onClose}>
+      <SheetContent
+        side="bottom"
+        className="pb-10 max-h-[80vh] bg-background rounded-t-3xl border-t-2 px-5"
+      >
+        <SheetHeader className="flex flex-row items-center px-0 justify-between space-y-0">
           <div className="flex items-center gap-3">
             <div
               className="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center text-white font-bold"
@@ -124,9 +126,12 @@ export function CurrencyDrawer({
               </p>
             </div>
           </div>
-        </DrawerHeader>
+          {/* <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-4 w-4" />
+          </Button> */}
+        </SheetHeader>
 
-        <div className="space-y-6 px-5">
+        <div className="space-y-6">
           {/* Price Info */}
           <div className="space-y-2">
             <div className="text-3xl font-bold text-foreground">
@@ -150,15 +155,16 @@ export function CurrencyDrawer({
               </span>
             </div>
             <div className="text-xs text-muted-foreground">
-              latest update {currency.date} {currency.time}
+              Last updated: {currency.date} {currency.time}
             </div>
           </div>
 
           {/* Chart */}
           <div className="space-y-4">
             <CurrencyChart data={chartData} isLoading={isLoadingChart} />
+
             {/* Time Filter Buttons */}
-            {/* <div className="flex gap-2 justify-center mb-5">
+            <div className="flex gap-2 justify-center">
               {timeFilters.map((filter) => (
                 <Button
                   key={filter}
@@ -168,19 +174,19 @@ export function CurrencyDrawer({
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
                   className={cn(
-                    "text-xs px-3 py-1 hover:bg-zinc-600",
+                    "text-xs px-3 py-1 rounded-full hover:bg-zinc-700",
                     selectedTimeFilter === filter
-                      ? "bg-zinc-700 text-primary-foreground"
+                      ? "bg-zinc-800 text-primary-foreground"
                       : "border-border text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {filter}
                 </Button>
               ))}
-            </div> */}
+            </div>
           </div>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   );
 }
