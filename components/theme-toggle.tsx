@@ -30,24 +30,24 @@ export function ThemeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="divide-y *:cursor-pointer dark:bg-zinc-950"
+        className="divide-y *:cursor-pointer dark:bg-zinc-950 dark:border-zinc-900 bg-white"
       >
         <DropdownMenuItem
-          className="hover:bg-transparent hover:text-zinc-500"
+          className="hover:bg-transparent hover:text-zinc-700 hover:dark:text-zinc-200 dark:border-zinc-900"
           onClick={() => setTheme("light")}
         >
           <Sun />
           Light
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="hover:bg-transparent hover:text-zinc-500"
+          className="hover:bg-transparent hover:text-zinc-700 hover:dark:text-zinc-200 dark:border-zinc-900"
           onClick={() => setTheme("dark")}
         >
           <Moon />
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="hover:bg-transparent hover:text-zinc-500"
+          className="hover:bg-transparent hover:text-zinc-700 hover:dark:text-zinc-200 dark:border-zinc-900"
           onClick={() => setTheme("system")}
         >
           <MonitorSpeakerIcon />
