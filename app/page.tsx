@@ -79,7 +79,7 @@ export default function HomePage() {
               size="icon"
               onClick={fetchCurrencyData}
               disabled={isLoading}
-              className="border cursor-pointer border-border bg-transparent rounded-full"
+              className="border cursor-pointer hover:text-zinc-700 border-border rounded-full"
             >
               <RefreshCw
                 className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}

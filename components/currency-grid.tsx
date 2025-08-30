@@ -21,7 +21,7 @@ export function CurrencyGrid({
         {Array.from({ length: 12 }).map((_, i) => (
           <Skeleton
             key={i}
-            className="w-full aspect-square rounded-xl bg-card"
+            className="w-full aspect-square rounded-xl bg-zinc-200 dark:bg-card"
           />
         ))}
       </div>

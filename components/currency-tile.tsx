@@ -27,7 +27,7 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
 
   return (
     <Card
-      className="p-4 cursor-pointer transition-all hover:scale-[1.03] shadow-none duration-200 aspect-square bg-card border dark:border-zinc-800"
+      className="p-4 cursor-pointer transition-all hover:scale-[1.03] dark:bg-zinc-950 bg-white shadow-none duration-200 aspect-square border dark:border-zinc-800"
       onClick={onClick}
     >
       <div className="flex items-start justify-between mb-2">

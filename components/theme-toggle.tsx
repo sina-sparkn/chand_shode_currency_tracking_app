@@ -21,14 +21,17 @@ export function ThemeToggle() {
         <Button
           variant="outline"
           size="icon"
-          className="border-border dark:border-zinc-800 bg-transparent rounded-full"
+          className="border hover:text-zinc-700 cursor-pointer dark:border-zinc-900 bg-transparent rounded-full"
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">تغییر تم</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="divide-y *:cursor-pointer">
+      <DropdownMenuContent
+        align="end"
+        className="divide-y *:cursor-pointer dark:bg-zinc-950"
+      >
         <DropdownMenuItem
           className="hover:bg-transparent hover:text-zinc-500"
           onClick={() => setTheme("light")}
