@@ -1,28 +1,44 @@
 {
-  "name": "Currency Tracker - cheghad???",
-  "short_name": "Currency Tracker",
+  "name": "cheghad Currency & Gold Price Tracker",
+  "short_name": "cheghad",
   "description": "Track currency and gold prices in real-time",
+  "id": "/",
+  "version": "1.0.0",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "minimal-ui"],
   "orientation": "portrait-primary",
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "categories": ["finance", "business", "utilities"],
   "lang": "en",
   "dir": "ltr",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
@@ -31,6 +47,12 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "640x1136",
+      "type": "image/png",
+      "form_factor": "narrow"
     }
   ],
   "shortcuts": [
@@ -45,6 +67,12 @@
           "sizes": "192x192"
         }
       ]
+    },
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+currency",
+      "url": "/currency?code=%s"
     }
   ]
 }
