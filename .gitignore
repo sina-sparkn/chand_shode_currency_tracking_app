@@ -25,3 +25,21 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PWA specific
+/sw.js.map
+/workbox-*.js
+/workbox-*.js.map
+/sw.js.map
+/sw.js.map.map
+
+# Service Worker cache
+/sw-cache/
+
+# PWA build artifacts
+/pwa-build/
+*.sw.js.map
+
+# Lighthouse reports
+lighthouse-report-*.html
+lighthouse-report-*.json
