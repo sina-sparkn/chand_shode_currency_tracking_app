@@ -64,7 +64,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold  text-foreground">
-              cheghad???
+              cheghad??
             </h1>
             <div className="text-muted-foreground">
               made by{" "}
