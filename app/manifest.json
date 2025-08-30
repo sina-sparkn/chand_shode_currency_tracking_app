@@ -51,7 +51,7 @@
       "url": "/?refresh=true",
       "icons": [
         {
-          "src": "/icons/web-app-manifest-192x192.png",
+          "src": "/web-app-manifest-192x192.png",
           "sizes": "192x192"
         }
       ]
