@@ -1,10 +1,32 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://cheghadshod.ir/sitemap.xml
+# Disallow admin and private areas
+Disallow: /api/
+Disallow: /_next/
+Disallow: /__tests__/
 
-# PWA specific
+# Allow important PWA files
 Allow: /manifest.json
 Allow: /sw.js
 Allow: /web-app-manifest-*.png
+Allow: /maskable_icon*.png
+
+# Sitemap
+Sitemap: https://cheghadshod.ir/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1

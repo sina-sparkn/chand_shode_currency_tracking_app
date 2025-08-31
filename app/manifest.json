@@ -1,7 +1,7 @@
 {
-  "name": "Currency Tracker - cheghad???",
-  "short_name": "cheghad",
-  "description": "Track currency and gold prices in real-time",
+  "name": "چقدر شد؟ | قیمت ارز و طلا",
+  "short_name": "چقدر شد؟",
+  "description": "قیمت لحظه‌ای ارز، طلا و سکه در ایران. پیگیری نرخ ارز، قیمت طلا و سکه با به‌روزرسانی خودکار.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -9,8 +9,8 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "categories": ["finance", "business", "utilities"],
-  "lang": "en",
-  "dir": "ltr",
+  "lang": "fa",
+  "dir": "rtl",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -45,10 +45,34 @@
   ],
   "shortcuts": [
     {
-      "name": "Refresh Prices",
-      "short_name": "Refresh",
-      "description": "Refresh currency prices",
+      "name": "به‌روزرسانی قیمت‌ها",
+      "short_name": "به‌روزرسانی",
+      "description": "به‌روزرسانی قیمت ارز و طلا",
       "url": "/?refresh=true",
+      "icons": [
+        {
+          "src": "/web-app-manifest-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "قیمت ارز",
+      "short_name": "ارز",
+      "description": "مشاهده قیمت ارزهای مختلف",
+      "url": "/?category=currency",
+      "icons": [
+        {
+          "src": "/web-app-manifest-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "قیمت طلا",
+      "short_name": "طلا",
+      "description": "مشاهده قیمت طلا و سکه",
+      "url": "/?category=gold",
       "icons": [
         {
           "src": "/web-app-manifest-192x192.png",

@@ -55,27 +55,29 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="bg-background p-4">
+    <main className="bg-background p-4" role="main">
       <div className="max-w-4xl mx-auto">
         {/* Offline Indicator */}
         <OfflineIndicator />
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <header className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold  text-foreground">
-              cheghad???
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+              Cheghad???
             </h1>
-            <div className="text-muted-foreground">
+            <p className="text-muted-foreground">
               made by{" "}
               <a
                 className="hover:underline"
                 target="_blank"
                 href="https://github.com/sina-sparkn"
+                rel="noopener noreferrer"
+                aria-label="Visit Sina Zare's GitHub profile"
               >
                 Sina zare
               </a>
-            </div>
+            </p>
           </div>
           <div className="flex flex-col items-end gap-2">
             <div className="flex gap-2 item-center">
@@ -94,7 +96,7 @@ export default function HomePage() {
             </div>
             <PWAInstallButton />
           </div>
-        </div>
+        </header>
 
         {/* Currency Grid */}
         <CurrencyGrid
@@ -112,8 +114,10 @@ export default function HomePage() {
 
         <footer className="mt-16 border-t flex items-center justify-between py-5 pb-10">
           <a
-            target="-blank"
+            target="_blank"
             href="https://github.com/sina-sparkn/chand_shode_currency_tracking_app"
+            rel="noopener noreferrer"
+            aria-label="Give the project a star on GitHub"
           >
             <Button
               variant={"outline"}
@@ -123,7 +127,7 @@ export default function HomePage() {
               <Star className="text-yellow-500 fill-yellow-500 " />
             </Button>
           </a>
-          <a href="#">
+          <a href="#" aria-label="Back to top">
             <Button
               variant={"outline"}
               className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer"
@@ -134,6 +138,6 @@ export default function HomePage() {
           </a>
         </footer>
       </div>
-    </div>
+    </main>
   );
 }
