@@ -48,12 +48,12 @@ export function CurrencyDrawer({
     try {
       // Generate mock historical data for demonstration
       const data = generateMockChartData(currency.price, selectedTimeFilter);
-      console.log('Generated mock data:', {
+      console.log("Generated mock data:", {
         timeFilter: selectedTimeFilter,
         dataPoints: data.length,
         firstPrice: data[0]?.price,
         lastPrice: data[data.length - 1]?.price,
-        sampleData: data.slice(0, 3)
+        sampleData: data.slice(0, 3),
       });
       setChartData(data);
     } catch (error) {
@@ -67,27 +67,31 @@ export function CurrencyDrawer({
     currentPrice: number,
     timeFilter: TimeFilter
   ) => {
-    console.log('Generating mock data for:', { currentPrice, timeFilter });
+    console.log("Generating mock data for:", { currentPrice, timeFilter });
 
     // Define the overall time span for the complete trend
     const totalTimeSpan = 365 * 5; // 5 years of data
     const startPrice = currentPrice / 15; // Start at 1/15 of current price
 
-    console.log('Price range:', { startPrice, currentPrice, totalGrowth: currentPrice - startPrice });
+    console.log("Price range:", {
+      startPrice,
+      currentPrice,
+      totalGrowth: currentPrice - startPrice,
+    });
 
     // Calculate data points for each time filter
     const dataPoints =
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-          ? 7
-          : timeFilter === "1M"
-            ? 30
-            : timeFilter === "1Y"
-              ? 365
-              : timeFilter === "5Y"
-                ? 1825
-                : 3650; // All time
+        ? 7
+        : timeFilter === "1M"
+        ? 30
+        : timeFilter === "1Y"
+        ? 365
+        : timeFilter === "5Y"
+        ? 1825
+        : 3650; // All time
 
     const data = [];
 
@@ -107,7 +111,8 @@ export function CurrencyDrawer({
       price = startPrice + baseGrowth + variation;
 
       // Add some realistic market movements
-      if (Math.random() < 0.1) { // 10% chance of market event
+      if (Math.random() < 0.1) {
+        // 10% chance of market event
         const eventImpact = (Math.random() - 0.5) * 0.2 * totalGrowth;
         price = price + eventImpact;
       }
@@ -116,7 +121,9 @@ export function CurrencyDrawer({
       price = Math.max(startPrice * 0.8, Math.min(currentPrice * 1.2, price));
 
       completeTrend.push({
-        time: new Date(Date.now() - (totalTimeSpan - i) * 86400000).toISOString(),
+        time: new Date(
+          Date.now() - (totalTimeSpan - i) * 86400000
+        ).toISOString(),
         price: Math.round(price * 100) / 100,
       });
     }
@@ -157,12 +164,13 @@ export function CurrencyDrawer({
       // For daily view, interpolate hourly data from the daily trend
       const dailyData = [];
       const basePrice = relevantData[0]?.price || currentPrice;
-      const endPrice = relevantData[relevantData.length - 1]?.price || currentPrice;
+      const endPrice =
+        relevantData[relevantData.length - 1]?.price || currentPrice;
       const priceChange = endPrice - basePrice;
 
       for (let i = 0; i <= 24; i++) {
         const hourProgress = i / 24;
-        const interpolatedPrice = basePrice + (priceChange * hourProgress);
+        const interpolatedPrice = basePrice + priceChange * hourProgress;
 
         // Add some intraday volatility
         const intradayVariation = (Math.random() - 0.5) * 0.02 * basePrice;
@@ -173,23 +181,24 @@ export function CurrencyDrawer({
           price: Math.round(finalPrice * 100) / 100,
         });
       }
-      console.log('Returning daily data:', {
+      console.log("Returning daily data:", {
         timeFilter,
         dataPoints: dailyData.length,
         firstPrice: dailyData[0]?.price,
-        lastPrice: dailyData[dailyData.length - 1]?.price
+        lastPrice: dailyData[dailyData.length - 1]?.price,
       });
       return dailyData;
     } else if (timeFilter === "1W") {
       // For weekly view, interpolate daily data from the weekly trend
       const weeklyData = [];
       const basePrice = relevantData[0]?.price || currentPrice;
-      const endPrice = relevantData[relevantData.length - 1]?.price || currentPrice;
+      const endPrice =
+        relevantData[relevantData.length - 1]?.price || currentPrice;
       const priceChange = endPrice - basePrice;
 
       for (let i = 0; i <= 7; i++) {
         const dayProgress = i / 7;
-        const interpolatedPrice = basePrice + (priceChange * dayProgress);
+        const interpolatedPrice = basePrice + priceChange * dayProgress;
 
         // Add some daily volatility
         const dailyVariation = (Math.random() - 0.5) * 0.03 * basePrice;
@@ -200,21 +209,21 @@ export function CurrencyDrawer({
           price: Math.round(finalPrice * 100) / 100,
         });
       }
-      console.log('Returning weekly data:', {
+      console.log("Returning weekly data:", {
         timeFilter,
         dataPoints: weeklyData.length,
         firstPrice: weeklyData[0]?.price,
-        lastPrice: weeklyData[weeklyData.length - 1]?.price
+        lastPrice: weeklyData[weeklyData.length - 1]?.price,
       });
       return weeklyData;
     } else {
       // For longer periods, return the relevant portion of the complete trend
       const result = relevantData;
-      console.log('Returning longer period data:', {
+      console.log("Returning longer period data:", {
         timeFilter,
         dataPoints: result.length,
         firstPrice: result[0]?.price,
-        lastPrice: result[result.length - 1]?.price
+        lastPrice: result[result.length - 1]?.price,
       });
       return result;
     }
@@ -294,7 +303,11 @@ export function CurrencyDrawer({
 
           {/* Chart */}
           <div className="space-y-4">
-            <CurrencyChart data={chartData} isLoading={isLoadingChart} />
+            <CurrencyChart
+              isPositive={isPositive}
+              data={chartData}
+              isLoading={isLoadingChart}
+            />
 
             {/* Time Filter Buttons */}
             <div className="flex gap-2 justify-center">

@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 interface CurrencyChartProps {
   data: Array<{ time: string; price: number }>;
   isLoading: boolean;
+  isPositive: boolean;
 }
 
 const chartConfig = {
@@ -30,7 +31,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
+export function CurrencyChart({
+  data,
+  isLoading,
+  isPositive,
+}: CurrencyChartProps) {
   if (isLoading) {
     return <Skeleton className="w-full bg-card" />;
   }
@@ -42,11 +47,11 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
       const averagePrice =
         data.reduce((sum, item) => sum + item.price, 0) / data.length;
       setAveragePrice(averagePrice);
-      console.log('Chart data updated:', {
+      console.log("Chart data updated:", {
         dataPoints: data.length,
         averagePrice,
         firstPrice: data[0]?.price,
-        lastPrice: data[data.length - 1]?.price
+        lastPrice: data[data.length - 1]?.price,
       });
     }
   }, [data]); // Add data as dependency
@@ -69,7 +74,11 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
           <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
           <defs>
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="lightgreen" stopOpacity={0.8} />
+              <stop
+                offset="5%"
+                stopColor={isPositive ? "#48a830" : "#dd003f"}
+                stopOpacity={0.8}
+              />
               <stop
                 offset="95%"
                 stopColor="var(--color-desktop)"
@@ -82,7 +91,7 @@ export function CurrencyChart({ data, isLoading }: CurrencyChartProps) {
             type="natural"
             fill="url(#fillDesktop)"
             fillOpacity={0.4}
-            stroke="lightgreen"
+            stroke={isPositive ? "#48a830" : "#dd003f"}
             stackId="a"
           />
         </AreaChart>
