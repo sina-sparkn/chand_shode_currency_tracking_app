@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import "./globals.css";
-import localFont from "next/font/local";
 import { Quicksand } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
   },
   description: "قیمت لحظه‌ای ارز، طلا و سکه در ایران. پیگیری نرخ ارز، قیمت طلا و سکه با به‌روزرسانی خودکار. Real-time currency, gold and coin prices in Iran.",
   keywords: [
-    "قیمت ارز", "قیمت طلا", "قیمت سکه", "نرخ ارز", "ارز دیجیتال", "طلا و جواهر",
+    "قیمت ارز", "قیمت یورو", "قیمت دلار", "قیمت طلا", "قیمت سکه", "نرخ ارز", "ارز دیجیتال", "طلا و جواهر",
     "currency prices", "gold prices", "exchange rates", "Iran currency", "Iran gold",
     "real-time prices", "financial tracker", "PWA", "cheghadshod", "چقدر شد"
   ],
