@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://cheghadshod.ir/sitemap.xml
 
 # PWA specific
 Allow: /manifest.json

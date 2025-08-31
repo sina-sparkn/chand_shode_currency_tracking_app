@@ -2,7 +2,7 @@
 
 import type { CurrencyData } from "@/app/page";
 import { Card } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Triangle } from "lucide-react";
+import { TrendingUp, TrendingDown, Triangle, Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CurrencyTileProps {
@@ -45,11 +45,19 @@ export function CurrencyTile({ currency, onClick }: CurrencyTileProps) {
         <div
           className={cn(
             "flex items-center gap-1",
-            isPositive ? "text-destructive" : "text-success"
+            isPositive
+              ? Math.abs(currency.change_value) > 0
+                ? "text-destructive"
+                : "text-zinc-700"
+              : "text-success"
           )}
         >
           {isPositive ? (
-            <Triangle className="w-3 h-3 fill-destructive" />
+            Math.abs(currency.change_value) > 0 ? (
+              <Triangle className="w-3 h-3 fill-destructive" />
+            ) : (
+              <Dot size={25} className="text-zinc-700 fill-zinc-700" />
+            )
           ) : (
             <Triangle className="w-3 h-3 rotate-180 fill-success" />
           )}
