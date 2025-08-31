@@ -85,7 +85,7 @@ export default function HomePage() {
                 size="icon"
                 onClick={fetchCurrencyData}
                 disabled={isLoading}
-                className="border bg-white cursor-pointer hover:text-zinc-200 border-border rounded-full"
+                className="border bg-white cursor-pointer hover:text-zinc-800 hover:dark:text-zinc-200 border-border rounded-full"
               >
                 <RefreshCw
                   className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
@@ -117,7 +117,7 @@ export default function HomePage() {
           >
             <Button
               variant={"outline"}
-              className="rounded-full border-border cursor-pointer hover:scale-105 transition-all origin-left"
+              className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer hover:scale-105 transition-all origin-left"
             >
               Give it a Star
               <Star className="text-yellow-500 fill-yellow-500 " />
@@ -126,7 +126,7 @@ export default function HomePage() {
           <a href="#">
             <Button
               variant={"outline"}
-              className="rounded-full border-border cursor-pointer"
+              className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer"
             >
               back to top
               <ArrowUp />

@@ -19,7 +19,7 @@ export function PWAInstallButton() {
     <Button
       variant="outline"
       size="sm"
-      className="cursor-pointer rounded-full hover:scale-105 transition-all"
+      className="cursor-pointer bg-white hover:text-zinc-800 hover:dark:text-zinc-200 hover:bg-white darlhover:text- rounded-full hover:scale-105 transition-all"
       onClick={showInstallPrompt}
     >
       <Download className="h-4 w-4" />
