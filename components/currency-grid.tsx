@@ -2,7 +2,6 @@
 
 import type { CurrencyData } from "@/app/page";
 import { CurrencyTile } from "./currency-tile";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface CurrencyGridProps {
   currencies: CurrencyData[];
@@ -15,28 +14,20 @@ export function CurrencyGrid({
   onCurrencySelect,
   isLoading,
 }: CurrencyGridProps) {
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <Skeleton
-            key={i}
-            className="w-full aspect-square rounded-xl bg-zinc-200 dark:bg-card"
-          />
-        ))}
-      </div>
-    );
-  }
-
-  currencies;
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-      {currencies.map((currency) => (
+      {currencies.map((currency, index) => (
         <div key={currency.symbol}>
           <CurrencyTile
             key={currency.symbol}
             currency={currency}
-            onClick={() => onCurrencySelect(currency)}
+            onClick={() => {
+              if (!isLoading) {
+                onCurrencySelect(currency);
+              }
+            }}
+            isLoading={isLoading}
+            index={index}
           />
         </div>
       ))}

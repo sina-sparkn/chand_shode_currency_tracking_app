@@ -33,6 +33,130 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
 
+  // Placeholder data for loading state
+  const placeholderCurrencies: CurrencyData[] = [
+    {
+      symbol: "USD",
+      name_en: "US Dollar",
+      name: "دلار",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "🇺🇸",
+      color: "#3b82f6",
+    },
+    {
+      symbol: "EUR",
+      name_en: "Euro",
+      name: "یورو",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "🇪🇺",
+      color: "#8b5cf6",
+    },
+    {
+      symbol: "GBP",
+      name_en: "British Pound",
+      name: "پوند",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "🇬🇧",
+      color: "#ef4444",
+    },
+    {
+      symbol: "JPY",
+      name_en: "Japanese Yen",
+      name: "ین",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "🇯🇵",
+      color: "#f59e0b",
+    },
+    {
+      symbol: "AED",
+      name_en: "UAE Dirham",
+      name: "درهم",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "🇦🇪",
+      color: "#10b981",
+    },
+    {
+      symbol: "USDT_IRT",
+      name_en: "Tether Dollar",
+      name: "دلار تتر",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "currency",
+      icon: "₮",
+      color: "#22c55e",
+    },
+    {
+      symbol: "IR_GOLD_18K",
+      name_en: "18K Gold",
+      name: "طلا 18 عیار",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "تومان",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "gold",
+      icon: "🪙",
+      color: "#eab308",
+    },
+    {
+      symbol: "XAUUSD",
+      name_en: "Gold Ounce",
+      name: "انس طلا",
+      price: 0,
+      change_value: 0,
+      change_percent: 0,
+      unit: "دلار",
+      date: "",
+      time: "",
+      time_unix: 0,
+      category: "gold",
+      icon: "⚱️",
+      color: "#ca8a04",
+    },
+  ];
+
   const fetchCurrencyData = async () => {
     setIsLoading(true);
     try {
@@ -53,6 +177,9 @@ export default function HomePage() {
     const interval = setInterval(fetchCurrencyData, 300000);
     return () => clearInterval(interval);
   }, []);
+
+  // Use placeholder data during loading, real data when available
+  const displayCurrencies = isLoading ? placeholderCurrencies : currencies;
 
   return (
     <main className="bg-background p-4" role="main">
@@ -100,7 +227,7 @@ export default function HomePage() {
 
         {/* Currency Grid */}
         <CurrencyGrid
-          currencies={currencies}
+          currencies={displayCurrencies}
           onCurrencySelect={setSelectedCurrency}
           isLoading={isLoading}
         />

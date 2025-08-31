@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "A Progressive Web App for tracking currency and gold prices in real-time",
-  "keywords": ["currency", "gold", "tracker", "pwa", "nextjs", "react"],
+  "keywords": [
+    "currency",
+    "gold",
+    "tracker",
+    "pwa",
+    "nextjs",
+    "react"
+  ],
   "author": "Sina Zare",
   "license": "MIT",
   "homepage": "https://your-domain.com",
@@ -58,6 +65,7 @@
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
+    "framer-motion": "^12.23.12",
     "geist": "latest",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
