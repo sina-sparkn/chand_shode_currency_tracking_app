@@ -48,6 +48,13 @@ export function CurrencyDrawer({
     try {
       // Generate mock historical data for demonstration
       const data = generateMockChartData(currency.price, selectedTimeFilter);
+      console.log('Generated mock data:', {
+        timeFilter: selectedTimeFilter,
+        dataPoints: data.length,
+        firstPrice: data[0]?.price,
+        lastPrice: data[data.length - 1]?.price,
+        sampleData: data.slice(0, 3)
+      });
       setChartData(data);
     } catch (error) {
       console.error("Failed to fetch chart data:", error);
@@ -60,28 +67,157 @@ export function CurrencyDrawer({
     currentPrice: number,
     timeFilter: TimeFilter
   ) => {
+    console.log('Generating mock data for:', { currentPrice, timeFilter });
+
+    // Define the overall time span for the complete trend
+    const totalTimeSpan = 365 * 5; // 5 years of data
+    const startPrice = currentPrice / 15; // Start at 1/15 of current price
+
+    console.log('Price range:', { startPrice, currentPrice, totalGrowth: currentPrice - startPrice });
+
+    // Calculate data points for each time filter
     const dataPoints =
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-        ? 7
-        : timeFilter === "1M"
-        ? 30
-        : 365;
+          ? 7
+          : timeFilter === "1M"
+            ? 30
+            : timeFilter === "1Y"
+              ? 365
+              : timeFilter === "5Y"
+                ? 1825
+                : 3650; // All time
+
     const data = [];
 
-    for (let i = dataPoints; i >= 0; i--) {
-      const variation = (Math.random() - 0.5) * 0.1; // ±5% variation
-      const price = currentPrice * (1 + variation * (i / dataPoints));
-      data.push({
-        time: new Date(
-          Date.now() - i * (timeFilter === "1D" ? 3600000 : 86400000)
-        ).toISOString(),
-        price: Math.max(0, price),
+    // Generate the complete upward trend first
+    const completeTrend = [];
+    let price = startPrice;
+    const totalGrowth = currentPrice - startPrice;
+
+    // Create the complete 5-year trend
+    for (let i = 0; i <= totalTimeSpan; i++) {
+      const timeProgress = i / totalTimeSpan;
+
+      // Smooth upward trend with some natural variation
+      const baseGrowth = timeProgress * totalGrowth;
+      const variation = (Math.random() - 0.5) * 0.1 * totalGrowth; // ±5% variation
+
+      price = startPrice + baseGrowth + variation;
+
+      // Add some realistic market movements
+      if (Math.random() < 0.1) { // 10% chance of market event
+        const eventImpact = (Math.random() - 0.5) * 0.2 * totalGrowth;
+        price = price + eventImpact;
+      }
+
+      // Ensure price doesn't go below start or above current
+      price = Math.max(startPrice * 0.8, Math.min(currentPrice * 1.2, price));
+
+      completeTrend.push({
+        time: new Date(Date.now() - (totalTimeSpan - i) * 86400000).toISOString(),
+        price: Math.round(price * 100) / 100,
       });
     }
 
-    return data;
+    // Now extract the relevant portion based on time filter
+    let startIndex, endIndex;
+
+    if (timeFilter === "1D") {
+      // Show last 24 hours (last 1 day of data)
+      startIndex = Math.max(0, completeTrend.length - 1);
+      endIndex = completeTrend.length;
+    } else if (timeFilter === "1W") {
+      // Show last 7 days
+      startIndex = Math.max(0, completeTrend.length - 7);
+      endIndex = completeTrend.length;
+    } else if (timeFilter === "1M") {
+      // Show last 30 days
+      startIndex = Math.max(0, completeTrend.length - 30);
+      endIndex = completeTrend.length;
+    } else if (timeFilter === "1Y") {
+      // Show last 365 days
+      startIndex = Math.max(0, completeTrend.length - 365);
+      endIndex = completeTrend.length;
+    } else if (timeFilter === "5Y") {
+      // Show last 5 years
+      startIndex = Math.max(0, completeTrend.length - 1825);
+      endIndex = completeTrend.length;
+    } else {
+      // Show all data
+      startIndex = 0;
+      endIndex = completeTrend.length;
+    }
+
+    // Extract the relevant portion and add more granular data for shorter time periods
+    const relevantData = completeTrend.slice(startIndex, endIndex);
+
+    if (timeFilter === "1D") {
+      // For daily view, interpolate hourly data from the daily trend
+      const dailyData = [];
+      const basePrice = relevantData[0]?.price || currentPrice;
+      const endPrice = relevantData[relevantData.length - 1]?.price || currentPrice;
+      const priceChange = endPrice - basePrice;
+
+      for (let i = 0; i <= 24; i++) {
+        const hourProgress = i / 24;
+        const interpolatedPrice = basePrice + (priceChange * hourProgress);
+
+        // Add some intraday volatility
+        const intradayVariation = (Math.random() - 0.5) * 0.02 * basePrice;
+        const finalPrice = interpolatedPrice + intradayVariation;
+
+        dailyData.push({
+          time: new Date(Date.now() - (24 - i) * 3600000).toISOString(),
+          price: Math.round(finalPrice * 100) / 100,
+        });
+      }
+      console.log('Returning daily data:', {
+        timeFilter,
+        dataPoints: dailyData.length,
+        firstPrice: dailyData[0]?.price,
+        lastPrice: dailyData[dailyData.length - 1]?.price
+      });
+      return dailyData;
+    } else if (timeFilter === "1W") {
+      // For weekly view, interpolate daily data from the weekly trend
+      const weeklyData = [];
+      const basePrice = relevantData[0]?.price || currentPrice;
+      const endPrice = relevantData[relevantData.length - 1]?.price || currentPrice;
+      const priceChange = endPrice - basePrice;
+
+      for (let i = 0; i <= 7; i++) {
+        const dayProgress = i / 7;
+        const interpolatedPrice = basePrice + (priceChange * dayProgress);
+
+        // Add some daily volatility
+        const dailyVariation = (Math.random() - 0.5) * 0.03 * basePrice;
+        const finalPrice = interpolatedPrice + dailyVariation;
+
+        weeklyData.push({
+          time: new Date(Date.now() - (7 - i) * 86400000).toISOString(),
+          price: Math.round(finalPrice * 100) / 100,
+        });
+      }
+      console.log('Returning weekly data:', {
+        timeFilter,
+        dataPoints: weeklyData.length,
+        firstPrice: weeklyData[0]?.price,
+        lastPrice: weeklyData[weeklyData.length - 1]?.price
+      });
+      return weeklyData;
+    } else {
+      // For longer periods, return the relevant portion of the complete trend
+      const result = relevantData;
+      console.log('Returning longer period data:', {
+        timeFilter,
+        dataPoints: result.length,
+        firstPrice: result[0]?.price,
+        lastPrice: result[result.length - 1]?.price
+      });
+      return result;
+    }
   };
 
   if (!currency) return null;

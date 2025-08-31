@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import { Quicksand } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PWAProvider } from "@/components/pwa-provider";
 
 const quicksand = Quicksand({
   subsets: ["latin"],
@@ -171,8 +172,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Suspense fallback={null}>{children}</Suspense>
-          <Analytics />
+          <PWAProvider>
+            <Suspense fallback={null}>{children}</Suspense>
+            <Analytics />
+          </PWAProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -23,9 +23,10 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "pwa:build": "next build && next export",
+    "pwa:build": "node scripts/update-sw-version.js && next build && next export",
     "pwa:analyze": "next build --analyze",
-    "pwa:test": "lighthouse http://localhost:3000 --view"
+    "pwa:test": "lighthouse http://localhost:3000 --view",
+    "update-sw": "node scripts/update-sw-version.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

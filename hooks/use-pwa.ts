@@ -13,6 +13,8 @@ interface PWAState {
   installPrompt: PWAInstallPrompt | null;
   showInstallPrompt: () => void;
   checkForUpdate: () => void;
+  hasUpdate: boolean;
+  updateApp: () => void;
 }
 
 export function usePWA(): PWAState {
@@ -21,6 +23,7 @@ export function usePWA(): PWAState {
   const [isOffline, setIsOffline] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [installPrompt, setInstallPrompt] = useState<PWAInstallPrompt | null>(null);
+  const [hasUpdate, setHasUpdate] = useState(false);
 
   useEffect(() => {
     // Check if app is installed
@@ -55,12 +58,35 @@ export function usePWA(): PWAState {
       setInstallPrompt(null);
     };
 
-    // Register service worker
+    // Register service worker with update detection
     const registerServiceWorker = async () => {
       if ('serviceWorker' in navigator) {
         try {
           const registration = await navigator.serviceWorker.register('/sw.js');
           console.log('SW registered: ', registration);
+
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  setHasUpdate(true);
+                  console.log('New service worker available');
+                }
+              });
+            }
+          });
+
+          // Handle service worker updates
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
+          });
+
         } catch (registrationError) {
           console.log('SW registration failed: ', registrationError);
         }
@@ -99,8 +125,6 @@ export function usePWA(): PWAState {
         } else {
           console.log('User dismissed the install prompt');
         }
-        setInstallPrompt(null);
-        setIsInstallable(false);
       } catch (error) {
         console.error('Error showing install prompt:', error);
       }
@@ -109,15 +133,20 @@ export function usePWA(): PWAState {
 
   const checkForUpdate = async () => {
     if ('serviceWorker' in navigator) {
-      try {
-        const registration = await navigator.serviceWorker.getRegistration();
-        if (registration) {
-          await registration.update();
-          console.log('Service Worker update check completed');
-        }
-      } catch (error) {
-        console.error('Error checking for updates:', error);
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (registration) {
+        await registration.update();
       }
+    }
+  };
+
+  const updateApp = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistration().then((registration) => {
+        if (registration && registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      });
     }
   };
 
@@ -129,5 +158,7 @@ export function usePWA(): PWAState {
     installPrompt,
     showInstallPrompt,
     checkForUpdate,
+    hasUpdate,
+    updateApp,
   };
 }
