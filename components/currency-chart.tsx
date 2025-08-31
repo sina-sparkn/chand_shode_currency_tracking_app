@@ -76,7 +76,7 @@ export function CurrencyChart({
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="5%"
-                stopColor={isPositive ? "#48a830" : "#dd003f"}
+                stopColor={!isPositive ? "#48a830" : "#dd003f"}
                 stopOpacity={0.8}
               />
               <stop
@@ -91,7 +91,7 @@ export function CurrencyChart({
             type="natural"
             fill="url(#fillDesktop)"
             fillOpacity={0.4}
-            stroke={isPositive ? "#48a830" : "#dd003f"}
+            stroke={!isPositive ? "#48a830" : "#dd003f"}
             stackId="a"
           />
         </AreaChart>
