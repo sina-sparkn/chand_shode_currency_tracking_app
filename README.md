@@ -1,6 +1,6 @@
 # Cheghad??? - Currency Tracker PWA
 
-A simple and modern **Currency Price Tracker App** built for Iranian users 🇮🇷 with **Progressive Web App (PWA)** support.  
+A simple and modern **Currency Price Tracker App** built for Iranian users with **Progressive Web App (PWA)** support.  
 Cheghad??? helps you quickly check the **latest exchange rates** with real-time updates, so you'll always know the current value of currencies.
 
 ---
@@ -13,27 +13,27 @@ Cheghad??? helps you quickly check the **latest exchange rates** with real-time 
 
 ---
 
-## ✨ Features
-- 📈 **Live currency updates** (latest exchange rates)
-- ⚡ **Fast and lightweight** app
-- 📱 **PWA Support** - Install as native app
-- 🔄 **Offline functionality** - Works without internet
-- 🚀 **Installable** - Add to home screen
-- 🔔 **Push notifications** - Stay updated
-- 🎨 **Dark/Light themes** - Automatic system detection
+##  Features
+-  **Live currency updates** (latest exchange rates)
+-  **Fast and lightweight** app
+-  **PWA Support** - Install as native app
+-  **Offline functionality** - Works without internet
+-  **Installable** - Add to home screen
+-  **Push notifications** - Stay updated
+-  **Dark/Light themes** - Automatic system detection
 
 ---
 
-## 🚀 PWA Features
+##  PWA Features
 
-### 📱 Progressive Web App
+###  Progressive Web App
 - **Installable**: Add to home screen on any device
 - **Offline Support**: Works without internet connection
 - **Responsive**: Optimized for all screen sizes
 - **Fast**: Instant loading with service worker caching
 - **Native Feel**: App-like experience
 
-### 🔧 Technical Features
+###  Technical Features
 - Service Worker for offline functionality
 - Web App Manifest for installation
 - Background sync capabilities
@@ -42,7 +42,7 @@ Cheghad??? helps you quickly check the **latest exchange rates** with real-time 
 
 ---
 
-## 🚀 Getting Started
+##  Installation
 
 ### 1. Clone the Repository
 ```bash
@@ -77,7 +77,7 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 📦 Deployment
+##  Deployment
 You can deploy Cheghad??? easily on:
 - [Vercel](https://vercel.com/) (recommended)
 - [Netlify](https://www.netlify.com/)
