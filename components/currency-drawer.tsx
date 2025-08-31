@@ -171,7 +171,7 @@ export function CurrencyDrawer({
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
                   className={cn(
-                    "text-xs px-3 py-1 rounded-full",
+                    "text-xs px-3 py-1 rounded-full hover:bg-zicnc-500",
                     selectedTimeFilter === filter
                       ? "bg-zinc-600 text-primary-foreground"
                       : "border-border text-muted-foreground hover:text-foreground hover:bg-accent"
