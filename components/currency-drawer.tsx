@@ -393,7 +393,7 @@ export function CurrencyDrawer({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {hoveredPrice ? "Hovering over chart point" : `Last updated: ${currency.date} ${currency.time}`}
+                  {`Last updated: ${currency.date} ${currency.time}`}
                 </motion.span>
               </AnimatePresence>
             </div>
@@ -405,7 +405,7 @@ export function CurrencyDrawer({
             {isLoadingChart && (
               <div className="space-y-3">
                 <div className="h-64 bg-muted/20 rounded-lg animate-pulse flex items-center justify-center">
-                  <div className="text-center space-y-2">
+                  <div className="text-center space-y-2 flex gap-1.5">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
                     <p className="text-sm text-muted-foreground">Fetching historical data</p>
                   </div>
@@ -469,13 +469,8 @@ export function CurrencyDrawer({
 
             {/* Data Source Indicator */}
             <div className="flex justify-center">
-              {isLoadingChart ? (
-                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-muted/30 bg-muted/10 text-xs text-muted-foreground">
-                  <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
-                  <span>Fetching data...</span>
-                </div>
-              ) : chartData.length > 0 ? (
-                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-green-500/30 bg-green-500/10 text-xs text-green-600 dark:text-green-400">
+              {chartData.length > 0 ? (
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border text-xs text-green-600 dark:text-green-400">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   <span>Real-time data</span>
                 </div>

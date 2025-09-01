@@ -14,6 +14,7 @@ import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 
@@ -31,13 +32,23 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-// Custom tooltip component that shows date and price
-function CustomTooltip({ active, payload, label }: any) {
+// Custom tooltip that also triggers hover events for price updates
+function CustomTooltipWithHover({ active, payload, onHover }: any) {
+  useEffect(() => {
+    if (active && payload && payload.length > 0) {
+      const price = payload[0].payload.price;
+      console.log("Tooltip hover - price:", price);
+      onHover?.(price);
+    } else if (!active) {
+      console.log("Tooltip not active, clearing hover");
+      onHover?.(null);
+    }
+  }, [active, payload, onHover]);
+
   if (!active || !payload || !payload.length) {
     return null;
   }
 
-  // Get the time from the first payload item's payload (which contains the original data)
   const timeData = payload[0]?.payload?.time;
 
   // Format the date to show as "Aug 3" or handle Jalali dates
@@ -127,45 +138,8 @@ export function CurrencyChart({
     }
   }, [data]); // Add data as dependency
 
-  const handleMouseMove = (e: any) => {
-    console.log("Mouse move event:", e);
-    if (e && e.activePayload && e.activePayload.length > 0) {
-      const price = e.activePayload[0].payload.price;
-      console.log("Hovering over price:", price);
-      onHover?.(price);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    console.log("Mouse leave event");
-    onHover?.(null);
-  };
-
-  const handleChartMouseMove = (e: React.MouseEvent) => {
-    if (!onHover || !data || data.length === 0) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const chartWidth = rect.width;
-
-    // Calculate which data point we're closest to
-    const dataIndex = Math.floor((x / chartWidth) * data.length);
-    const clampedIndex = Math.max(0, Math.min(dataIndex, data.length - 1));
-    const price = data[clampedIndex]?.price;
-
-    if (price) {
-      console.log("Chart hover - calculated price:", price);
-      onHover(price);
-    }
-  };
-
-  const handleChartMouseLeave = () => {
-    console.log("Chart mouse leave");
-    onHover?.(null);
-  };
-
   return (
-    <div className="w-full relative">
+    <div className="w-full">
       <ChartContainer config={chartConfig}>
         <AreaChart
           accessibilityLayer
@@ -181,7 +155,10 @@ export function CurrencyChart({
           <CartesianGrid vertical={false} />
           <ChartTooltip
             cursor={false}
-            content={<CustomTooltip />}
+            content={<CustomTooltipWithHover onHover={onHover} />}
+            trigger="hover"
+            isAnimationActive={true}
+            wrapperStyle={{ pointerEvents: 'auto' }}
           />
           <defs>
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
@@ -207,14 +184,6 @@ export function CurrencyChart({
           />
         </AreaChart>
       </ChartContainer>
-
-      {/* Transparent overlay for mouse events */}
-      <div
-        className="absolute inset-0 cursor-crosshair"
-        onMouseMove={handleChartMouseMove}
-        onMouseLeave={handleChartMouseLeave}
-        style={{ pointerEvents: 'auto' }}
-      />
     </div>
   );
 }
