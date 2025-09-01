@@ -36,8 +36,12 @@ function CustomTooltip({ active, payload, label }: any) {
     return null;
   }
 
+  // Get the time from the first payload item's payload (which contains the original data)
+  const timeData = payload[0]?.payload?.time;
+
   // Format the date to show as "Aug 3"
   const formatDate = (dateString: string) => {
+    if (!dateString) return 'N/A';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       month: 'short',
@@ -47,7 +51,7 @@ function CustomTooltip({ active, payload, label }: any) {
 
   return (
     <div className="border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
-      <div className="font-medium">{formatDate(label)}</div>
+      <div className="font-medium">{formatDate(timeData)}</div>
       <div className="grid gap-1.5">
         {payload.map((item: any, index: number) => (
           <div
