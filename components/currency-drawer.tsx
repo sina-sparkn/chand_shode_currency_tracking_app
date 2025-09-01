@@ -84,14 +84,14 @@ export function CurrencyDrawer({
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-          ? 7
-          : timeFilter === "1M"
-            ? 30
-            : timeFilter === "1Y"
-              ? 365
-              : timeFilter === "5Y"
-                ? 1825
-                : 3650; // All time
+        ? 7
+        : timeFilter === "1M"
+        ? 30
+        : timeFilter === "1Y"
+        ? 365
+        : timeFilter === "5Y"
+        ? 1825
+        : 3650; // All time
 
     const data = [];
 
@@ -256,10 +256,12 @@ export function CurrencyDrawer({
                 <img
                   src={currency.icon}
                   alt={`${currency.symbol} icon`}
-                  className="min-w-14 h-full"
+                  className={`${
+                    currency.category === "cryptocurrency" ? "" : "min-w-14"
+                  } "h-full"`}
                 />
               ) : (
-                currency.icon
+                <span>{currency.icon}</span>
               )}
             </div>
             <div>
