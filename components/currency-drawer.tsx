@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { X, TrendingUp, TrendingDown, Triangle } from "lucide-react";
 import { cn, getJalaliDateRange, mapCurrencyToNavasanItem } from "@/lib/utils";
 import { CurrencyChart } from "./currency-chart";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CurrencyDrawerProps {
   currency: CurrencyData | null;
@@ -32,6 +33,7 @@ export function CurrencyDrawer({
     Array<{ time: string; price: number }>
   >([]);
   const [isLoadingChart, setIsLoadingChart] = useState(false);
+  const [hoveredPrice, setHoveredPrice] = useState<number | null>(null);
 
   const timeFilters: TimeFilter[] = ["1D", "1W", "1M", "1Y", "5Y", "All"];
 
@@ -344,7 +346,26 @@ export function CurrencyDrawer({
           {/* Price Info */}
           <div className="space-y-2">
             <div className="text-3xl font-bold text-foreground">
-              {formatPrice(currency.price)}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={hoveredPrice || currency.price}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="flex items-center gap-2"
+                >
+                  {formatPrice(hoveredPrice || currency.price)}
+                  {hoveredPrice && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      className="w-2 h-2 bg-blue-500 rounded-full"
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
             <div
               className={cn(
@@ -364,7 +385,17 @@ export function CurrencyDrawer({
               </span>
             </div>
             <div className="text-xs text-muted-foreground">
-              Last updated: {currency.date} {currency.time}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={hoveredPrice ? "hovered" : "current"}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {hoveredPrice ? "Hovering over chart point" : `Last updated: ${currency.date} ${currency.time}`}
+                </motion.span>
+              </AnimatePresence>
             </div>
           </div>
 
@@ -379,7 +410,6 @@ export function CurrencyDrawer({
                 </div>
                 <div className="h-64 bg-muted/20 rounded-lg animate-pulse flex items-center justify-center">
                   <div className="text-center space-y-2">
-                    <div className="w-16 h-16 mx-auto bg-muted/30 rounded-full animate-pulse"></div>
                     <p className="text-sm text-muted-foreground">Fetching historical data</p>
                   </div>
                 </div>
@@ -392,6 +422,7 @@ export function CurrencyDrawer({
                 isPositive={isPositive}
                 data={chartData}
                 isLoading={false}
+                onHover={setHoveredPrice}
               />
             )}
 
@@ -449,7 +480,7 @@ export function CurrencyDrawer({
               ) : chartData.length > 0 ? (
                 <div className="flex items-center justify-center space-x-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                  <span>Real-time data from Navasan API</span>
+                  <span>Real-time data</span>
                 </div>
               ) : (
                 <div className="flex items-center justify-center space-x-2">
@@ -460,56 +491,7 @@ export function CurrencyDrawer({
             </div>
 
             {/* Debug Test Button */}
-            <div className="text-center">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  console.log("Testing API call for:", currency.symbol);
-                  const { start, end } = getJalaliDateRange("1M");
-                  const item = mapCurrencyToNavasanItem(currency.symbol);
-                  console.log("Test API call:", { item, start, end });
 
-                  fetch("/api/currencies", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, start, end }),
-                  })
-                    .then(res => res.json())
-                    .then(data => console.log("Test API response:", data))
-                    .catch(err => console.error("Test API error:", err));
-                }}
-                className="text-xs"
-              >
-                Test API Call
-              </Button>
-            </div>
-
-            {/* Debug Test Button */}
-            <div className="text-center">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  console.log("Testing API call for:", currency.symbol);
-                  const { start, end } = getJalaliDateRange("1M");
-                  const item = mapCurrencyToNavasanItem(currency.symbol);
-                  console.log("Test API call:", { item, start, end });
-
-                  fetch("/api/currencies", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, start, end }),
-                  })
-                    .then(res => res.json())
-                    .then(data => console.log("Test API response:", data))
-                    .catch(err => console.error("Test API error:", err));
-                }}
-                className="text-xs"
-              >
-                Test API Call
-              </Button>
-            </div>
           </div>
         </div>
       </SheetContent>

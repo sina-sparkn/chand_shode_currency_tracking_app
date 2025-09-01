@@ -21,6 +21,7 @@ interface CurrencyChartProps {
   data: Array<{ time: string; price: number }>;
   isLoading: boolean;
   isPositive: boolean;
+  onHover?: (price: number | null) => void;
 }
 
 const chartConfig = {
@@ -100,6 +101,7 @@ export function CurrencyChart({
   data,
   isLoading,
   isPositive,
+  onHover,
 }: CurrencyChartProps) {
   if (isLoading) {
     return <Skeleton className="w-full bg-card" />;
@@ -125,6 +127,17 @@ export function CurrencyChart({
     }
   }, [data]); // Add data as dependency
 
+  const handleMouseMove = (e: any) => {
+    if (e && e.activePayload && e.activePayload.length > 0) {
+      const price = e.activePayload[0].payload.price;
+      onHover?.(price);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    onHover?.(null);
+  };
+
   return (
     <div className="w-full">
       <ChartContainer config={chartConfig}>
@@ -137,6 +150,8 @@ export function CurrencyChart({
             top: 12,
             bottom: 30,
           }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
           <YAxis tickLine={false} axisLine={false} />
           <CartesianGrid vertical={false} />
