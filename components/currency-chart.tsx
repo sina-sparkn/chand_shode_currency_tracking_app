@@ -14,7 +14,6 @@ import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
-  ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 
@@ -30,6 +29,45 @@ const chartConfig = {
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
+
+// Custom tooltip component that shows date and price
+function CustomTooltip({ active, payload, label }: any) {
+  if (!active || !payload || !payload.length) {
+    return null;
+  }
+
+  // Format the date to show as "Aug 3"
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  return (
+    <div className="border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl">
+      <div className="font-medium">{formatDate(label)}</div>
+      <div className="grid gap-1.5">
+        {payload.map((item: any, index: number) => (
+          <div
+            key={item.dataKey}
+            className="flex w-full flex-wrap items-center gap-2"
+          >
+            <div className="flex flex-1 justify-between leading-none items-center">
+              <span className="text-muted-foreground">
+                {item.name || 'Price'}
+              </span>
+              <span className="text-foreground font-mono font-medium tabular-nums ml-2">
+                {item.value?.toLocaleString()}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function CurrencyChart({
   data,
@@ -71,7 +109,7 @@ export function CurrencyChart({
         >
           <YAxis tickLine={false} axisLine={false} />
           <CartesianGrid vertical={false} />
-          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <ChartTooltip cursor={false} content={<CustomTooltip />} />
           <defs>
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
               <stop
