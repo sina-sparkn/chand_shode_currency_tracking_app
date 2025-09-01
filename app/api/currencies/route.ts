@@ -56,27 +56,27 @@ const currencyConfig = {
   },
   ETH: {
     name_en: "Ethereum",
-    icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/b/b7/ETHEREUM-YOUTUBE-PROFILE-PIC.png",
     color: "#627eea",
   },
   USDT: {
     name_en: "Tether",
-    icon: "https://cryptologos.cc/logos/tether-usdt-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/0/01/USDT_Logo.png",
     color: "#26a17b",
   },
   XRP: {
     name_en: "XRP",
-    icon: "https://cryptologos.cc/logos/xrp-xrp-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/f/fb/XRP_Ledger_logo.jpg",
     color: "#000000",
   },
   BNB: {
     name_en: "BNB",
-    icon: "https://cryptologos.cc/logos/bnb-bnb-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Binance-coin-bnb-logo.png",
     color: "#f3ba2f",
   },
   SOL: {
     name_en: "Solana",
-    icon: "https://cryptologos.cc/logos/solana-sol-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/en/b/b9/Solana_logo.png",
     color: "#14f195",
   },
   USDC: {
