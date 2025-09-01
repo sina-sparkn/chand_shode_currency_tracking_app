@@ -248,10 +248,7 @@ export function CurrencyDrawer({
       >
         <SheetHeader className="flex flex-row items-center px-0 justify-between space-y-0">
           <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 overflow-hidden rounded-full flex items-center justify-center text-white font-bold"
-              style={{ backgroundColor: currency.color }}
-            >
+            <div className="w-10 h-10 border overflow-hidden rounded-full flex items-center justify-center text-white font-bold">
               {currency.icon.includes("http") ? (
                 <img
                   src={currency.icon}
@@ -324,7 +321,7 @@ export function CurrencyDrawer({
                   className={cn(
                     "text-xs px-3 py-1 rounded-full hover:bg-zicnc-500",
                     selectedTimeFilter === filter
-                      ? "bg-zinc-600 text-primary-foreground"
+                      ? "dark:bg-zinc-700 bg-zinc-500 text-primary-foreground"
                       : "border-border text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
                 >

@@ -57,7 +57,7 @@ export function CurrencyTile({
       >
         <div className="flex items-start justify-between mb-2">
           <motion.div
-            className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-zinc-900 dark:text-white"
+            className="w-10 h-10 rounded-full border overflow-hidden flex items-center justify-center text-zinc-900 dark:text-white"
             whileHover={{ rotate: 5, scale: 1.1 }}
             transition={{ duration: 0.2 }}
             style={
