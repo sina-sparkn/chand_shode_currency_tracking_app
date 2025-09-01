@@ -248,7 +248,10 @@ export function CurrencyDrawer({
       >
         <SheetHeader className="flex flex-row items-center px-0 justify-between space-y-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 border overflow-hidden rounded-full flex items-center justify-center text-white font-bold">
+            <div
+              className="w-10 h-10 border overflow-hidden rounded-full flex items-center justify-center text-white font-bold"
+              style={{ backgroundColor: currency.color }}
+            >
               {currency.icon.includes("http") ? (
                 <img
                   src={currency.icon}
@@ -309,7 +312,7 @@ export function CurrencyDrawer({
             />
 
             {/* Time Filter Buttons */}
-            <div className="flex gap-2 justify-center">
+            <div className="flex gap-2 justify-center border rounded-md p-1">
               {timeFilters.map((filter) => (
                 <Button
                   key={filter}
@@ -319,10 +322,10 @@ export function CurrencyDrawer({
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
                   className={cn(
-                    "text-xs px-3 py-1 rounded-full hover:bg-zicnc-500",
+                    "text-xs px-3 py-1 flex-1 hover:bg-zicnc-500 rounded-[5px] bg-transparent border-none",
                     selectedTimeFilter === filter
-                      ? "dark:bg-zinc-700 bg-zinc-500 text-primary-foreground"
-                      : "border-border text-muted-foreground hover:text-foreground hover:bg-accent"
+                      ? "text-zinc-800 dark:bg-zinc-800 bg-zinc-200 dark:text-zinc-100"
+                      : "hover:text-foreground "
                   )}
                 >
                   {filter}
