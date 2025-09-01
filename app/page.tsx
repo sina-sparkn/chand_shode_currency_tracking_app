@@ -32,6 +32,7 @@ export default function HomePage() {
     null
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [tabLoading, setTabLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [activeTab, setActiveTab] = useState("all");
 
@@ -205,12 +206,20 @@ export default function HomePage() {
   const filteredCurrencies = getFilteredCurrencies(displayCurrencies);
 
   const handleTabChange = (tabValue: string) => {
-    setActiveTab(tabValue);
+    if (tabValue !== activeTab) {
+      setTabLoading(true);
+      setActiveTab(tabValue);
+
+      // Simulate a brief loading state for tab switch
+      setTimeout(() => {
+        setTabLoading(false);
+      }, 500); // Increased to 500ms for better visibility
+    }
   };
 
   return (
     <>
-      <Dock onTabChange={handleTabChange} />
+      <Dock onTabChange={handleTabChange} isLoading={tabLoading} />
 
       <main className="bg-background p-4" role="main">
         <div className="max-w-4xl mx-auto">
@@ -259,7 +268,7 @@ export default function HomePage() {
           <CurrencyGrid
             currencies={filteredCurrencies}
             onCurrencySelect={setSelectedCurrency}
-            isLoading={isLoading}
+            isLoading={isLoading || tabLoading}
           />
 
           {/* Currency Detail Drawer */}

@@ -51,7 +51,7 @@ const currencyConfig = {
   // Cryptocurrency symbols
   BTC: {
     name_en: "Bitcoin",
-    icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png",
     color: "#f7931a",
   },
   ETH: {

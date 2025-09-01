@@ -2,7 +2,7 @@
 
 import type { CurrencyData } from "@/app/page";
 import { Card } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Triangle, Dot, Minus } from "lucide-react";
+import { Triangle, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
@@ -37,7 +37,6 @@ export function CurrencyTile({
       }
       transition={{
         duration: 0.2,
-        delay: 0.03,
         ease: [0.25, 0.46, 0.45, 0.94],
         type: "spring",
         stiffness: 100,
@@ -67,7 +66,9 @@ export function CurrencyTile({
               <img
                 src={currency.icon}
                 alt={`${currency.symbol} icon`}
-                className="min-w-14 h-full"
+                className={`${
+                  currency.category === "cryptocurrency" ? "" : "min-w-14"
+                } "h-full"`}
               />
             ) : (
               <span className={isLoading ? "opacity-50" : ""}>
