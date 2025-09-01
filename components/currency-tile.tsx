@@ -146,6 +146,9 @@ export function CurrencyTile({
               ) : (
                 formatPrice(currency.price)
               )}
+              {currency.category === "cryptocurrency" && (
+                <span className="text-zinc-600 text-sm">$</span>
+              )}
             </div>
           </motion.div>
         </div>
