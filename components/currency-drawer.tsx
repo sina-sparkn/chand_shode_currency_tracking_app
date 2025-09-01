@@ -404,12 +404,9 @@ export function CurrencyDrawer({
             {/* Chart Loading State */}
             {isLoadingChart && (
               <div className="space-y-3">
-                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                  <span>Loading chart data...</span>
-                </div>
                 <div className="h-64 bg-muted/20 rounded-lg animate-pulse flex items-center justify-center">
                   <div className="text-center space-y-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
                     <p className="text-sm text-muted-foreground">Fetching historical data</p>
                   </div>
                 </div>
@@ -471,27 +468,24 @@ export function CurrencyDrawer({
             </div>
 
             {/* Data Source Indicator */}
-            <div className="text-xs text-center text-muted-foreground">
+            <div className="flex justify-center">
               {isLoadingChart ? (
-                <div className="flex items-center justify-center space-x-2">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-muted/30 bg-muted/10 text-xs text-muted-foreground">
                   <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
-                  <span>Fetching data from Navasan API...</span>
+                  <span>Fetching data...</span>
                 </div>
               ) : chartData.length > 0 ? (
-                <div className="flex items-center justify-center space-x-2">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-green-500/30 bg-green-500/10 text-xs text-green-600 dark:text-green-400">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   <span>Real-time data</span>
                 </div>
               ) : (
-                <div className="flex items-center justify-center space-x-2">
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-xs text-yellow-600 dark:text-yellow-400">
                   <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
-                  <span>Using mock data (API unavailable)</span>
+                  <span>Using mock data</span>
                 </div>
               )}
             </div>
-
-            {/* Debug Test Button */}
-
           </div>
         </div>
       </SheetContent>

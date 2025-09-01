@@ -128,18 +128,44 @@ export function CurrencyChart({
   }, [data]); // Add data as dependency
 
   const handleMouseMove = (e: any) => {
+    console.log("Mouse move event:", e);
     if (e && e.activePayload && e.activePayload.length > 0) {
       const price = e.activePayload[0].payload.price;
+      console.log("Hovering over price:", price);
       onHover?.(price);
     }
   };
 
   const handleMouseLeave = () => {
+    console.log("Mouse leave event");
+    onHover?.(null);
+  };
+
+  const handleChartMouseMove = (e: React.MouseEvent) => {
+    if (!onHover || !data || data.length === 0) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const chartWidth = rect.width;
+
+    // Calculate which data point we're closest to
+    const dataIndex = Math.floor((x / chartWidth) * data.length);
+    const clampedIndex = Math.max(0, Math.min(dataIndex, data.length - 1));
+    const price = data[clampedIndex]?.price;
+
+    if (price) {
+      console.log("Chart hover - calculated price:", price);
+      onHover(price);
+    }
+  };
+
+  const handleChartMouseLeave = () => {
+    console.log("Chart mouse leave");
     onHover?.(null);
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <ChartContainer config={chartConfig}>
         <AreaChart
           accessibilityLayer
@@ -150,12 +176,13 @@ export function CurrencyChart({
             top: 12,
             bottom: 30,
           }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
         >
           <YAxis tickLine={false} axisLine={false} />
           <CartesianGrid vertical={false} />
-          <ChartTooltip cursor={false} content={<CustomTooltip />} />
+          <ChartTooltip
+            cursor={false}
+            content={<CustomTooltip />}
+          />
           <defs>
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
               <stop
@@ -180,6 +207,14 @@ export function CurrencyChart({
           />
         </AreaChart>
       </ChartContainer>
+
+      {/* Transparent overlay for mouse events */}
+      <div
+        className="absolute inset-0 cursor-crosshair"
+        onMouseMove={handleChartMouseMove}
+        onMouseLeave={handleChartMouseLeave}
+        style={{ pointerEvents: 'auto' }}
+      />
     </div>
   );
 }
