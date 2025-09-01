@@ -370,11 +370,43 @@ export function CurrencyDrawer({
 
           {/* Chart */}
           <div className="space-y-4">
-            <CurrencyChart
-              isPositive={isPositive}
-              data={chartData}
-              isLoading={isLoadingChart}
-            />
+            {/* Chart Loading State */}
+            {isLoadingChart && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                  <span>Loading chart data...</span>
+                </div>
+                <div className="h-64 bg-muted/20 rounded-lg animate-pulse flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 mx-auto bg-muted/30 rounded-full animate-pulse"></div>
+                    <p className="text-sm text-muted-foreground">Fetching historical data</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Chart when loaded */}
+            {!isLoadingChart && chartData.length > 0 && (
+              <CurrencyChart
+                isPositive={isPositive}
+                data={chartData}
+                isLoading={false}
+              />
+            )}
+
+            {/* No data state */}
+            {!isLoadingChart && chartData.length === 0 && (
+              <div className="h-64 bg-muted/10 rounded-lg border-2 border-dashed border-muted/30 flex items-center justify-center">
+                <div className="text-center space-y-2">
+                  <div className="w-12 h-12 mx-auto bg-muted/20 rounded-full flex items-center justify-center">
+                    <span className="text-2xl">📊</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">No chart data available</p>
+                  <p className="text-xs text-muted-foreground">Try selecting a different time period</p>
+                </div>
+              </div>
+            )}
 
             {/* Time Filter Buttons */}
             <div className="flex gap-2 justify-center border rounded-md p-1">
@@ -388,20 +420,43 @@ export function CurrencyDrawer({
                   onClick={() => setSelectedTimeFilter(filter)}
                   disabled={isLoadingChart}
                   className={cn(
-                    "text-xs px-3 py-1 flex-1 hover:bg-zicnc-500 rounded-[5px] bg-transparent border-none",
+                    "text-xs px-3 py-1 flex-1 hover:bg-zicnc-500 rounded-[5px] bg-transparent border-none transition-all duration-200",
                     selectedTimeFilter === filter
                       ? "text-zinc-800 dark:bg-zinc-800 bg-zinc-200 dark:text-zinc-100"
-                      : "hover:text-foreground "
+                      : "hover:text-foreground",
+                    isLoadingChart && "opacity-50 cursor-not-allowed"
                   )}
                 >
-                  {filter}
+                  {isLoadingChart && selectedTimeFilter === filter ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    filter
+                  )}
                 </Button>
               ))}
             </div>
 
             {/* Data Source Indicator */}
             <div className="text-xs text-center text-muted-foreground">
-              {isLoadingChart ? "Loading..." : chartData.length > 0 ? "Real-time data from Navasan API" : "Using mock data"}
+              {isLoadingChart ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-current"></div>
+                  <span>Fetching data from Navasan API...</span>
+                </div>
+              ) : chartData.length > 0 ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                  <span>Real-time data from Navasan API</span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center space-x-2">
+                  <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                  <span>Using mock data (API unavailable)</span>
+                </div>
+              )}
             </div>
 
             {/* Debug Test Button */}
