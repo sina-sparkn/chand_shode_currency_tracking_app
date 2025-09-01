@@ -7,8 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 
 // Utility functions for Jalali dates and currency mapping
 export function getJalaliDateRange(timeFilter: string): { start: string; end: string } {
+  // Get current date in Persian calendar (approximate)
   const today = new Date();
-  const currentYear = 1403; // Current Jalali year (approximate)
+  const currentYear = 1403; // Current Persian year
   
   let daysToSubtract = 0;
   
@@ -34,9 +35,15 @@ export function getJalaliDateRange(timeFilter: string): { start: string; end: st
   
   const startDate = new Date(today.getTime() - (daysToSubtract * 24 * 60 * 60 * 1000));
   
-  // Convert to Jalali format (YYYY-MM-DD)
-  const startJalali = `${currentYear}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
-  const endJalali = `${currentYear}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  // Convert to Persian calendar format (YYYY/MM/DD)
+  // This is a simplified conversion - in production you'd use a proper Persian calendar library
+  const startMonth = startDate.getMonth() + 1;
+  const startDay = startDate.getDate();
+  const endMonth = today.getMonth() + 1;
+  const endDay = today.getDate();
+  
+  const startJalali = `${currentYear}/${String(startMonth).padStart(2, '0')}/${String(startDay).padStart(2, '0')}`;
+  const endJalali = `${currentYear}/${String(endMonth).padStart(2, '0')}/${String(endDay).padStart(2, '0')}`;
   
   return { start: startJalali, end: endJalali };
 }
@@ -90,23 +97,23 @@ export function mapCurrencyToNavasanItem(symbol: string): string {
     // Cryptocurrencies
     'BTC': 'btc',
     'ETH': 'eth',
-    'USDT': 'usd',
+    'USDT': 'usdt',
     'XRP': 'xrp',
     'BNB': 'bnb',
     'SOL': 'sol',
-    'USDC': 'usd',
-    'DOGE': 'dog',
+    'USDC': 'usdt',
+    'DOGE': 'doge',
     'ADA': 'ada',
     'TRX': 'trx',
-    'LINK': 'lin',
-    'AVAX': 'ava',
+    'LINK': 'link',
+    'AVAX': 'avax',
     'XLM': 'xlm',
-    'SHIB': 'shi',
+    'SHIB': 'shib',
     'DOT': 'dot',
     'LTC': 'ltc',
     'UNI': 'uni',
     'FIL': 'fil',
-    'ATOM': 'ato',
+    'ATOM': 'atom',
   };
   
   return mapping[symbol] || 'usd_sell'; // Default fallback

@@ -391,6 +391,58 @@ export function CurrencyDrawer({
             <div className="text-xs text-center text-muted-foreground">
               {isLoadingChart ? "Loading..." : chartData.length > 0 ? "Real-time data from Navasan API" : "Using mock data"}
             </div>
+
+            {/* Debug Test Button */}
+            <div className="text-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  console.log("Testing API call for:", currency.symbol);
+                  const { start, end } = getJalaliDateRange("1M");
+                  const item = mapCurrencyToNavasanItem(currency.symbol);
+                  console.log("Test API call:", { item, start, end });
+
+                  fetch("/api/currencies", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item, start, end }),
+                  })
+                    .then(res => res.json())
+                    .then(data => console.log("Test API response:", data))
+                    .catch(err => console.error("Test API error:", err));
+                }}
+                className="text-xs"
+              >
+                Test API Call
+              </Button>
+            </div>
+
+            {/* Debug Test Button */}
+            <div className="text-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  console.log("Testing API call for:", currency.symbol);
+                  const { start, end } = getJalaliDateRange("1M");
+                  const item = mapCurrencyToNavasanItem(currency.symbol);
+                  console.log("Test API call:", { item, start, end });
+
+                  fetch("/api/currencies", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item, start, end }),
+                  })
+                    .then(res => res.json())
+                    .then(data => console.log("Test API response:", data))
+                    .catch(err => console.error("Test API error:", err));
+                }}
+                className="text-xs"
+              >
+                Test API Call
+              </Button>
+            </div>
           </div>
         </div>
       </SheetContent>
