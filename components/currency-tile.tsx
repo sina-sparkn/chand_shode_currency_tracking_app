@@ -23,14 +23,9 @@ export function CurrencyTile({
   const isPositive = currency.change_value >= 0;
 
   const formatPrice = (price: number) => {
-    if (price >= 1000000) {
-      return price.toLocaleString();
-    } else if (price >= 1000) {
-      return price.toLocaleString();
-    }
     return new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 10,
     }).format(price);
   };
 
@@ -42,7 +37,7 @@ export function CurrencyTile({
       }
       transition={{
         duration: 0.2,
-        delay: index * 0.1,
+        delay: 0.03,
         ease: [0.25, 0.46, 0.45, 0.94],
         type: "spring",
         stiffness: 100,
@@ -66,6 +61,7 @@ export function CurrencyTile({
             className="w-10 h-10 rounded-full overflow-hidden flex items-center border justify-center text-zinc-900 dark:text-white"
             whileHover={{ rotate: 5, scale: 1.1 }}
             transition={{ duration: 0.2 }}
+            style={{ backgroundColor: currency.color }}
           >
             {currency.icon.includes("http") ? (
               <img
@@ -90,7 +86,7 @@ export function CurrencyTile({
             )}
             initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.5, x: 0 } : { opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
+            transition={{ delay: 0.03 + index * 0.01, duration: 0.4 }}
           >
             {isLoading ? (
               <div className="flex items-center gap-1">
@@ -109,7 +105,11 @@ export function CurrencyTile({
                   <Triangle className="w-3 h-3 rotate-180 fill-success" />
                 )}
                 <span className="text-xs font-medium ">
-                  {Math.abs(currency.change_value).toLocaleString()}
+                  {currency.category !== "cryptocurrency" ? (
+                    <>{Math.abs(currency.change_value).toLocaleString()}</>
+                  ) : (
+                    <>{Math.abs(currency.change_percent).toLocaleString()}%</>
+                  )}
                 </span>
               </>
             )}
@@ -121,7 +121,7 @@ export function CurrencyTile({
             className="flex items-center gap-2"
             initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.7, y: 0 } : { opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
+            transition={{ delay: 0.03 + index * 0.01, duration: 0.4 }}
           >
             <span
               className={cn(
@@ -137,7 +137,7 @@ export function CurrencyTile({
             className="flex items-center gap-2 flex-row-reverse text-left w-fit"
             initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.7, y: 0 } : { opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 + index * 0.1, duration: 0.4 }}
+            transition={{ delay: 0.03 + index * 0.01, duration: 0.4 }}
           >
             <div className="text-2xl font-bold text-foreground flex">
               {isLoading ? (

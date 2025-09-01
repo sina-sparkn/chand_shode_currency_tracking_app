@@ -84,14 +84,14 @@ export function CurrencyDrawer({
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-        ? 7
-        : timeFilter === "1M"
-        ? 30
-        : timeFilter === "1Y"
-        ? 365
-        : timeFilter === "5Y"
-        ? 1825
-        : 3650; // All time
+          ? 7
+          : timeFilter === "1M"
+            ? 30
+            : timeFilter === "1Y"
+              ? 365
+              : timeFilter === "5Y"
+                ? 1825
+                : 3650; // All time
 
     const data = [];
 
@@ -236,7 +236,7 @@ export function CurrencyDrawer({
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 10,
     }).format(price);
   };
 

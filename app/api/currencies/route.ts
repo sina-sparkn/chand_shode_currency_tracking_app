@@ -47,6 +47,126 @@ const currencyConfig = {
   IR_COIN_HALF: { name_en: "Half Coin", icon: "🪙", color: "#ca8a04" },
   IR_COIN_EMAMI: { name_en: "Emami Coin", icon: "🪙", color: "#dc2626" },
   IR_COIN_BAHAR: { name_en: "Bahar Azadi Coin", icon: "🪙", color: "#ec4899" },
+
+  // Cryptocurrency symbols
+  BTC: {
+    name_en: "Bitcoin",
+    icon: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
+    color: "#f7931a",
+  },
+  ETH: {
+    name_en: "Ethereum",
+    icon: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
+    color: "#627eea",
+  },
+  USDT: {
+    name_en: "Tether",
+    icon: "https://cryptologos.cc/logos/tether-usdt-logo.png",
+    color: "#26a17b",
+  },
+  XRP: {
+    name_en: "XRP",
+    icon: "https://cryptologos.cc/logos/xrp-xrp-logo.png",
+    color: "#000000",
+  },
+  BNB: {
+    name_en: "BNB",
+    icon: "https://cryptologos.cc/logos/bnb-bnb-logo.png",
+    color: "#f3ba2f",
+  },
+  SOL: {
+    name_en: "Solana",
+    icon: "https://cryptologos.cc/logos/solana-sol-logo.png",
+    color: "#14f195",
+  },
+  USDC: {
+    name_en: "USD Coin",
+    icon: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png",
+    color: "#2775ca",
+  },
+  DOGE: {
+    name_en: "Dogecoin",
+    icon: "https://cryptologos.cc/logos/dogecoin-doge-logo.png",
+    color: "#c2a633",
+  },
+  ADA: {
+    name_en: "Cardano",
+    icon: "https://cryptologos.cc/logos/cardano-ada-logo.png",
+    color: "#0033ad",
+  },
+  TRX: {
+    name_en: "TRON",
+    icon: "https://cryptologos.cc/logos/tron-trx-logo.png",
+    color: "#eb0029",
+  },
+  LINK: {
+    name_en: "Chainlink",
+    icon: "https://cryptologos.cc/logos/chainlink-link-logo.png",
+    color: "#2a5ada",
+  },
+  AVAX: {
+    name_en: "Avalanche",
+    icon: "https://cryptologos.cc/logos/avalanche-avax-logo.png",
+    color: "#e84142",
+  },
+  XLM: {
+    name_en: "Stellar",
+    icon: "https://cryptologos.cc/logos/stellar-xlm-logo.png",
+    color: "#000000",
+  },
+  SHIB: {
+    name_en: "Shiba Inu",
+    icon: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png",
+    color: "#ff6b35",
+  },
+  DOT: {
+    name_en: "Polkadot",
+    icon: "https://cryptologos.cc/logos/polkadot-new-dot-logo.png",
+    color: "#e6007a",
+  },
+  LTC: {
+    name_en: "Litecoin",
+    icon: "https://cryptologos.cc/logos/litecoin-ltc-logo.png",
+    color: "#a6a9aa",
+  },
+  UNI: {
+    name_en: "Uniswap",
+    icon: "https://cryptologos.cc/logos/uniswap-uni-logo.png",
+    color: "#ff007a",
+  },
+  FIL: {
+    name_en: "Filecoin",
+    icon: "https://cryptologos.cc/logos/filecoin-fil-logo.png",
+    color: "#0090ff",
+  },
+  ATOM: {
+    name_en: "Cosmos",
+    icon: "https://cryptologos.cc/logos/cosmos-atom-logo.png",
+    color: "#2d3142",
+  },
+};
+
+// Fallback icons for cryptocurrencies (in case external URLs are not accessible)
+const cryptoFallbackIcons: { [key: string]: string } = {
+  BTC: "₿",
+  ETH: "Ξ",
+  USDT: "₮",
+  XRP: "✕",
+  BNB: "🅱",
+  SOL: "◎",
+  USDC: "💲",
+  DOGE: "Ð",
+  ADA: "₳",
+  TRX: "⚡",
+  LINK: "🔗",
+  AVAX: "❄",
+  XLM: "★",
+  SHIB: "🐕",
+  DOT: "●",
+  LTC: "Ł",
+  UNI: "🦄",
+  FIL: "��",
+  ATOM: "⚛",
 };
 
 export async function GET() {
@@ -64,7 +184,7 @@ export async function GET() {
 
     const data = await response.json();
 
-    const currencies = [];
+    const currencies: any[] = [];
 
     // Process currency data
     if (data.currency && Array.isArray(data.currency)) {
@@ -130,8 +250,8 @@ export async function GET() {
           item.symbol as keyof typeof currencyConfig
         ] || {
           name_en: item.name_en,
-          icon: item.symbol.slice(0, 2),
-          color: "#eab308",
+          icon: `https://cryptologos.cc/logos/${item.symbol.toLowerCase()}-${item.symbol.toLowerCase()}-logo.png`,
+          color: "#64748b",
         };
 
         currencies.push({
@@ -139,6 +259,7 @@ export async function GET() {
           name_en: config.name_en,
           name: item.name,
           price: item.price,
+          change_value: 0, // Cryptocurrencies typically don't have change_value, so we set it to 0
           change_percent: item.change_percent,
           unit: item.unit,
           date: item.date,

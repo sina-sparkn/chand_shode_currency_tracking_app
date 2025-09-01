@@ -21,7 +21,7 @@ export interface CurrencyData {
   date: string;
   time: string;
   time_unix: number;
-  category: "gold" | "currency";
+  category: "gold" | "currency" | "cryptocurrency";
   icon: string;
   color: string;
 }
@@ -184,12 +184,16 @@ export default function HomePage() {
   const getFilteredCurrencies = (currencies: CurrencyData[]) => {
     switch (activeTab) {
       case "currency-and-gold":
-        return currencies.filter(currency =>
-          currency.category === "currency" || currency.category === "gold"
+        return currencies.filter(
+          (currency) =>
+            currency.category === "currency" || currency.category === "gold"
         );
       case "crypto":
-        return currencies.filter(currency =>
-          currency.symbol === "USDT_IRT" || currency.symbol.includes("BTC") || currency.symbol.includes("ETH")
+        return currencies.filter(
+          (currency) =>
+            currency.category === "cryptocurrency" ||
+            currency.symbol.includes("BTC") ||
+            currency.symbol.includes("ETH")
         );
       default:
         return currencies; // "all" tab shows everything
@@ -231,14 +235,6 @@ export default function HomePage() {
                   Sina zare
                 </a>
               </p>
-              {/* Active Tab Indicator */}
-              <div className="mt-2">
-                <span className="text-sm text-muted-foreground">
-                  Showing: {activeTab === "all" ? "All Currencies" :
-                    activeTab === "currency-and-gold" ? "Currency & Gold" :
-                      "Crypto"}
-                </span>
-              </div>
             </div>
             <div className="flex flex-col items-end gap-2">
               <div className="flex gap-2 item-center">

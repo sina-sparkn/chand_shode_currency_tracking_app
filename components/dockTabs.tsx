@@ -14,23 +14,27 @@ export default function DockTabs({ onTabChange }: DockTabsProps) {
   };
 
   return (
-    <Tabs value={activeTab} onValueChange={handleTabChange} className="items-center">
+    <Tabs
+      value={activeTab}
+      onValueChange={handleTabChange}
+      className="items-center"
+    >
       <TabsList className="gap-1 bg-transparent w-full rounded-full flex items-center justify-evenly">
         <TabsTrigger
           value="all"
-          className="data-[state=active]:bg-zinc-800 p-3 rounded-l-full rounded-r-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
+          className="dark:data-[state=active]:bg-zinc-800 data-[state=active]:bg-white p-3 rounded-l-4xl rounded-r-sm flex-1 data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none"
         >
           All
         </TabsTrigger>
         <TabsTrigger
           value="currency-and-gold"
-          className="data-[state=active]:bg-zinc-800 p-3 rounded-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
+          className="dark:data-[state=active]:bg-zinc-800 data-[state=active]:bg-white p-3 flex-1 !rounded-sm data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none"
         >
           Currency & Gold
         </TabsTrigger>
         <TabsTrigger
           value="crypto"
-          className="data-[state=active]:bg-zinc-800 p-3 rounded-r-full rounded-l-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
+          className="dark:data-[state=active]:bg-zinc-800 data-[state=active]:bg-white p-3 rounded-r-4xl rounded-l-sm flex-1 data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none"
         >
           Crypto
         </TabsTrigger>
