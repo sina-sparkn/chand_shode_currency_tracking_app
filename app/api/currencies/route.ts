@@ -72,7 +72,7 @@ const currencyConfig = {
   BNB: {
     name_en: "BNB",
     icon: "https://upload.wikimedia.org/wikipedia/commons/f/fc/Binance-coin-bnb-logo.png",
-    color: "#f3ba2f",
+    color: "#ffffff",
   },
   SOL: {
     name_en: "Solana",

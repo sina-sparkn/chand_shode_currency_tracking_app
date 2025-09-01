@@ -35,14 +35,14 @@ export function CurrencyGrid({
       </div>
 
       {/* Loading overlay for tab switches */}
-      {isLoading && currencies.length > 0 && (
+      {/* {isLoading && currencies.length > 0 && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-lg flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
             <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
             <p className="text-sm text-muted-foreground font-medium">Loading...</p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

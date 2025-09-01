@@ -23,7 +23,7 @@ export default function DockTabs({
       onValueChange={handleTabChange}
       className="items-center"
     >
-      <TabsList className="gap-1 bg-transparent w-full rounded-full flex items-center justify-evenly">
+      <TabsList className="bg-transparent w-full rounded-full flex items-center justify-evenly">
         <TabsTrigger
           value="all"
           className="dark:data-[state=active]:bg-zinc-800 data-[state=active]:bg-white p-3 rounded-l-4xl rounded-r-sm w-full data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none relative overflow-hidden"
@@ -35,12 +35,12 @@ export default function DockTabs({
         </TabsTrigger>
         <TabsTrigger
           value="currency-and-gold"
-          className="dark:data-[state=active]:bg-zinc-800 data-[state=active]:bg-white p-3 w-full  !rounded-sm data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none relative overflow-hidden"
+          className="dark:data-[state=active]:bg-zinc-800 px-5 data-[state=active]:bg-white p-3 w-full  !rounded-sm data-[state=active]:text-sidebar-accent-foreground data-[state=active]:shadow-none relative overflow-hidden"
         >
           {activeTab === "currency-and-gold" && isLoading && (
             <div className="absolute inset-0 animate-pulse"></div>
           )}
-          <span className="relative z-10">Currency & Gold</span>
+          <span className="relative z-10">Currency&Gold</span>
         </TabsTrigger>
         <TabsTrigger
           value="crypto"
