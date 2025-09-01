@@ -8,6 +8,7 @@ import { PWAInstallButton } from "@/components/pwa-install-button";
 import { OfflineIndicator } from "@/components/offline-indicator";
 import { ArrowUp, Github, RefreshCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Dock from "@/components/dock";
 
 export interface CurrencyData {
   symbol: string;
@@ -239,7 +240,9 @@ export default function HomePage() {
           onClose={() => setSelectedCurrency(null)}
         />
 
-        <footer className="mt-16 border-t flex items-center justify-between py-5 pb-10">
+        <Dock />
+
+        <footer className="mt-16 pb-20 border-t flex items-center justify-between py-5">
           <a
             target="_blank"
             href="https://github.com/sina-sparkn/chand_shode_currency_tracking_app"

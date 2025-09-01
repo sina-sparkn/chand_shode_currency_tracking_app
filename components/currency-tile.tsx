@@ -14,7 +14,12 @@ interface CurrencyTileProps {
   index?: number;
 }
 
-export function CurrencyTile({ currency, onClick, isLoading = false, index = 0 }: CurrencyTileProps) {
+export function CurrencyTile({
+  currency,
+  onClick,
+  isLoading = false,
+  index = 0,
+}: CurrencyTileProps) {
   const isPositive = currency.change_value >= 0;
 
   const formatPrice = (price: number) => {
@@ -31,28 +36,27 @@ export function CurrencyTile({ currency, onClick, isLoading = false, index = 0 }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={isLoading ?
-        { opacity: 0.7, y: 0, scale: 1 } :
-        { opacity: 1, y: 0, scale: 1 }
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={
+        isLoading ? { opacity: 0.7, scale: 1 } : { opacity: 1, scale: 1 }
       }
       transition={{
-        duration: 0.5,
+        duration: 0.2,
         delay: index * 0.1,
         ease: [0.25, 0.46, 0.45, 0.94],
         type: "spring",
         stiffness: 100,
-        damping: 15
+        damping: 15,
       }}
       whileHover={{
         scale: 1.03,
-        transition: { duration: 0.2 }
+        transition: { duration: 0.15 },
       }}
       whileTap={{ scale: 0.98 }}
     >
       <Card
         className={cn(
-          "p-4 cursor-pointer transition-all dark:bg-zinc-950 bg-white shadow-none duration-200 aspect-square border dark:border-zinc-800",
+          "p-4 cursor-pointer transition-all dark:bg-zinc-950 bg-white shadow-none duration-200 aspect-square border border-zinc-200 dark:border-zinc-800",
           isLoading && "animate-pulse"
         )}
         onClick={onClick}
@@ -84,7 +88,7 @@ export function CurrencyTile({ currency, onClick, isLoading = false, index = 0 }
                   : "text-zinc-600"
                 : "text-success"
             )}
-            initial={{ opacity: 0, x: 10 }}
+            initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.5, x: 0 } : { opacity: 1, x: 0 }}
             transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
           >
@@ -115,18 +119,23 @@ export function CurrencyTile({ currency, onClick, isLoading = false, index = 0 }
         <div className="space-y-1 mt-auto">
           <motion.div
             className="flex items-center gap-2"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.7, y: 0 } : { opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
           >
-            <span className={cn("text-xs text-muted-foreground", isLoading && "opacity-70")}>
+            <span
+              className={cn(
+                "text-xs text-muted-foreground",
+                isLoading && "opacity-70"
+              )}
+            >
               {currency.name_en}
             </span>
             <span className="text-xs text-muted-foreground font-mono"></span>
           </motion.div>
           <motion.div
             className="flex items-center gap-2 flex-row-reverse text-left w-fit"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0 }}
             animate={isLoading ? { opacity: 0.7, y: 0 } : { opacity: 1, y: 0 }}
             transition={{ delay: 0.4 + index * 0.1, duration: 0.4 }}
           >
