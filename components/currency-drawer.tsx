@@ -28,7 +28,7 @@ export function CurrencyDrawer({
   onClose,
 }: CurrencyDrawerProps) {
   const [selectedTimeFilter, setSelectedTimeFilter] =
-    useState<TimeFilter>("1D");
+    useState<TimeFilter>("1Y");
   const [chartData, setChartData] = useState<
     Array<{ time: string; price: number }>
   >([]);
@@ -318,7 +318,11 @@ export function CurrencyDrawer({
           <div className="flex items-center gap-3">
             <div
               className="w-10 h-10 border overflow-hidden rounded-full flex items-center justify-center text-white font-bold"
-              style={{ backgroundColor: currency.color }}
+              style={
+                currency.category === "cryptocurrency"
+                  ? { backgroundColor: currency.color }
+                  : {}
+              }
             >
               {currency.icon.includes("http") ? (
                 <img
@@ -386,15 +390,9 @@ export function CurrencyDrawer({
             </div>
             <div className="text-xs text-muted-foreground">
               <AnimatePresence mode="wait">
-                <motion.span
-                  key={hoveredPrice ? "hovered" : "current"}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
+                <span>
                   {`Last updated: ${currency.date} ${currency.time}`}
-                </motion.span>
+                </span>
               </AnimatePresence>
             </div>
           </div>
