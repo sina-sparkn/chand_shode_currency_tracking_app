@@ -7,9 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 // Utility functions for Jalali dates and currency mapping
 export function getJalaliDateRange(timeFilter: string): { start: string; end: string } {
-  // Get current date in Persian calendar (approximate)
-  const today = new Date();
-  const currentYear = 1403; // Current Persian year
+  // Today's date in Persian calendar: 1404-06-10
+  const currentYear = 1404;
+  const currentMonth = 6; // Khordad (June)
+  const currentDay = 10;
   
   let daysToSubtract = 0;
   
@@ -33,17 +34,38 @@ export function getJalaliDateRange(timeFilter: string): { start: string; end: st
       daysToSubtract = 365;
   }
   
-  const startDate = new Date(today.getTime() - (daysToSubtract * 24 * 60 * 60 * 1000));
+  // Calculate start date by subtracting days
+  // For simplicity, we'll use a basic calculation
+  // In production, you'd want to use a proper Persian calendar library
   
-  // Convert to Persian calendar format (YYYY/MM/DD)
-  // This is a simplified conversion - in production you'd use a proper Persian calendar library
-  const startMonth = startDate.getMonth() + 1;
-  const startDay = startDate.getDate();
-  const endMonth = today.getMonth() + 1;
-  const endDay = today.getDate();
+  let startYear = currentYear;
+  let startMonth = currentMonth;
+  let startDay = currentDay - daysToSubtract;
   
-  const startJalali = `${currentYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
-  const endJalali = `${currentYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`;
+  // Handle month/year rollbacks
+  while (startDay <= 0) {
+    startMonth--;
+    if (startMonth <= 0) {
+      startMonth = 12;
+      startYear--;
+    }
+    
+    // Approximate days in each Persian month
+    const daysInMonth = startMonth <= 6 ? 31 : startMonth <= 11 ? 30 : 29;
+    startDay += daysInMonth;
+  }
+  
+  // Ensure we don't go below year 1400
+  if (startYear < 1400) {
+    startYear = 1400;
+    startMonth = 1;
+    startDay = 1;
+  }
+  
+  const startJalali = `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
+  const endJalali = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(currentDay).padStart(2, '0')}`;
+  
+  console.log("Generated Jalali dates:", { start: startJalali, end: endJalali, timeFilter });
   
   return { start: startJalali, end: endJalali };
 }
