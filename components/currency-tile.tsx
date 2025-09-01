@@ -57,17 +57,21 @@ export function CurrencyTile({
       >
         <div className="flex items-start justify-between mb-2">
           <motion.div
-            className="w-10 h-10 rounded-full overflow-hidden flex items-center border justify-center text-zinc-900 dark:text-white"
+            className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-zinc-900 dark:text-white"
             whileHover={{ rotate: 5, scale: 1.1 }}
             transition={{ duration: 0.2 }}
-            style={{ backgroundColor: currency.color }}
+            style={
+              currency.category === "cryptocurrency"
+                ? { backgroundColor: currency.color }
+                : {}
+            }
           >
             {currency.icon.includes("http") ? (
               <img
                 src={currency.icon}
                 alt={`${currency.symbol} icon`}
                 className={`${
-                  currency.category === "cryptocurrency" ? "" : "min-w-14"
+                  currency.category === "cryptocurrency" ? "" : ""
                 } "h-full"`}
               />
             ) : (
