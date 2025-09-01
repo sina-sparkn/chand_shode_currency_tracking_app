@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 const API_KEY = "BKW3R7AAPbusQ1Mru4nNJkLQ3fiZlmp7";
 const API_URL = `https://BrsApi.ir/Api/Market/Gold_Currency.php?key=${API_KEY}`;
 
+// New API for historical data
+const NAVASAN_API_KEY = "freeJJJetPy6xcS9nnSGp4bxCucXeI6f";
+const NAVASAN_API_URL = "http://api.navasan.tech/ohlcSearch/";
+
 const currencyConfig = {
   // Currency symbols
 
@@ -378,4 +382,62 @@ export async function GET() {
 
     return NextResponse.json(mockCurrencies);
   }
+}
+
+export async function POST(request: Request) {
+  try {
+    const { item, start, end } = await request.json();
+    
+    if (!item || !start || !end) {
+      return NextResponse.json(
+        { error: "Missing required parameters: item, start, end" },
+        { status: 400 }
+      );
+    }
+
+    // Convert Jalali dates to Gregorian dates for the API
+    const startDate = convertJalaliToGregorian(start);
+    const endDate = convertJalaliToGregorian(end);
+
+    const response = await fetch(
+      `${NAVASAN_API_URL}?item=${item}&start=${start}&end=${end}&api_key=${NAVASAN_API_KEY}`,
+      {
+        headers: {
+          "User-Agent": "Currency-Tracker-App/1.0",
+        },
+        next: { revalidate: 300 }, // Cache for 5 minutes
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Navasan API request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Transform the data to match our chart format
+    const chartData = data.map((item: any) => ({
+      time: item.date, // The API returns date in a format we can use
+      price: parseFloat(item.close || item.price || 0),
+      open: parseFloat(item.open || 0),
+      high: parseFloat(item.high || 0),
+      low: parseFloat(item.low || 0),
+      volume: parseFloat(item.volume || 0),
+    }));
+
+    return NextResponse.json(chartData);
+  } catch (error) {
+    console.error("Error fetching historical data:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch historical data" },
+      { status: 500 }
+    );
+  }
+}
+
+// Helper function to convert Jalali dates to Gregorian (basic implementation)
+function convertJalaliToGregorian(jalaliDate: string): string {
+  // This is a simplified conversion - you might want to use a proper library
+  // For now, we'll return the Jalali date as is since the API accepts Jalali dates
+  return jalaliDate;
 }

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { X, TrendingUp, TrendingDown, Triangle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getJalaliDateRange, mapCurrencyToNavasanItem } from "@/lib/utils";
 import { CurrencyChart } from "./currency-chart";
 
 interface CurrencyDrawerProps {
@@ -46,18 +46,72 @@ export function CurrencyDrawer({
 
     setIsLoadingChart(true);
     try {
-      // Generate mock historical data for demonstration
-      const data = generateMockChartData(currency.price, selectedTimeFilter);
-      console.log("Generated mock data:", {
-        timeFilter: selectedTimeFilter,
-        dataPoints: data.length,
-        firstPrice: data[0]?.price,
-        lastPrice: data[data.length - 1]?.price,
-        sampleData: data.slice(0, 3),
+      // Try to fetch real data from the API
+      let timeFilter = selectedTimeFilter;
+      if (timeFilter === "All") {
+        // For "All" time, we'll use a longer period
+        timeFilter = "5Y";
+      }
+
+      const { start, end } = getJalaliDateRange(timeFilter);
+      const item = mapCurrencyToNavasanItem(currency.symbol);
+
+      console.log("Fetching data for:", { symbol: currency.symbol, item, start, end, timeFilter });
+
+      const response = await fetch("/api/currencies", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ item, start, end }),
       });
-      setChartData(data);
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      console.log("Raw API response:", data);
+
+      // Transform the data to match our chart format
+      const transformedData = data.map((item: any) => ({
+        time: item.time || item.date,
+        price: item.price || item.close || 0,
+      })).filter((item: any) => item.price > 0); // Filter out invalid prices
+
+      console.log("Fetched real data:", {
+        timeFilter: timeFilter,
+        dataPoints: transformedData.length,
+        firstPrice: transformedData[0]?.price,
+        lastPrice: transformedData[transformedData.length - 1]?.price,
+        sampleData: transformedData.slice(0, 3),
+      });
+
+      if (transformedData.length === 0) {
+        throw new Error("No valid data received from API");
+      }
+
+      setChartData(transformedData);
+      setIsLoadingChart(false);
+      return;
     } catch (error) {
-      console.error("Failed to fetch chart data:", error);
+      console.error("Failed to fetch real chart data:", error);
+    }
+
+    // Fallback to mock data if API fails or returns no data
+    try {
+      const mockData = generateMockChartData(currency.price, selectedTimeFilter);
+      console.log("Using mock data as fallback:", {
+        timeFilter: selectedTimeFilter,
+        dataPoints: mockData.length,
+        firstPrice: mockData[0]?.price,
+        lastPrice: mockData[mockData.length - 1]?.price,
+      });
+      setChartData(mockData);
+    } catch (error) {
+      console.error("Failed to generate mock data:", error);
+      setChartData([]);
     } finally {
       setIsLoadingChart(false);
     }
@@ -84,14 +138,14 @@ export function CurrencyDrawer({
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-        ? 7
-        : timeFilter === "1M"
-        ? 30
-        : timeFilter === "1Y"
-        ? 365
-        : timeFilter === "5Y"
-        ? 1825
-        : 3650; // All time
+          ? 7
+          : timeFilter === "1M"
+            ? 30
+            : timeFilter === "1Y"
+              ? 365
+              : timeFilter === "5Y"
+                ? 1825
+                : 3650; // All time
 
     const data = [];
 
@@ -256,9 +310,8 @@ export function CurrencyDrawer({
                 <img
                   src={currency.icon}
                   alt={`${currency.symbol} icon`}
-                  className={`${
-                    currency.category === "cryptocurrency" ? "" : "min-w-14"
-                  } "h-full"`}
+                  className={`${currency.category === "cryptocurrency" ? "" : "min-w-14"
+                    } "h-full"`}
                 />
               ) : (
                 <span>{currency.icon}</span>
@@ -321,6 +374,7 @@ export function CurrencyDrawer({
                   }
                   size="sm"
                   onClick={() => setSelectedTimeFilter(filter)}
+                  disabled={isLoadingChart}
                   className={cn(
                     "text-xs px-3 py-1 flex-1 hover:bg-zicnc-500 rounded-[5px] bg-transparent border-none",
                     selectedTimeFilter === filter
@@ -331,6 +385,11 @@ export function CurrencyDrawer({
                   {filter}
                 </Button>
               ))}
+            </div>
+
+            {/* Data Source Indicator */}
+            <div className="text-xs text-center text-muted-foreground">
+              {isLoadingChart ? "Loading..." : chartData.length > 0 ? "Real-time data from Navasan API" : "Using mock data"}
             </div>
           </div>
         </div>

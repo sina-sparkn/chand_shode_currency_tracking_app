@@ -39,14 +39,37 @@ function CustomTooltip({ active, payload, label }: any) {
   // Get the time from the first payload item's payload (which contains the original data)
   const timeData = payload[0]?.payload?.time;
 
-  // Format the date to show as "Aug 3"
+  // Format the date to show as "Aug 3" or handle Jalali dates
   const formatDate = (dateString: string) => {
     if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric'
-    });
+
+    try {
+      // Check if it's a Jalali date (YYYY-MM-DD format)
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        // For Jalali dates, show as "MMM DD" format
+        const [year, month, day] = dateString.split('-');
+        const monthNames = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}`;
+      }
+
+      // For ISO dates, parse and format normally
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        // If parsing fails, try to extract date from string
+        return dateString.split('T')[0] || dateString;
+      }
+
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString || 'N/A';
+    }
   };
 
   return (
