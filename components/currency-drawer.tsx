@@ -41,6 +41,15 @@ export function CurrencyDrawer({
     }
   }, [currency, selectedTimeFilter, isOpen]);
 
+  // Debug: Monitor chartData changes
+  useEffect(() => {
+    console.log("Chart data state changed:", {
+      length: chartData.length,
+      sample: chartData.slice(0, 3),
+      isEmpty: chartData.length === 0
+    });
+  }, [chartData]);
+
   const fetchChartData = async () => {
     if (!currency) return;
 
@@ -73,13 +82,15 @@ export function CurrencyDrawer({
       const data = await response.json();
 
       console.log("Raw API response:", data);
+      console.log("Sample API item:", data[0]);
 
       // Transform the data to match our chart format
       const transformedData = data.map((item: any) => ({
-        time: item.time || item.date,
-        price: item.price || item.close || 0,
-      })).filter((item: any) => item.price > 0); // Filter out invalid prices
+        time: item.time, // Use the time field directly from API response
+        price: item.price, // Use the price field directly from API response
+      })).filter((item: any) => item.price > 0 && item.time); // Filter out invalid data
 
+      console.log("Transformed data sample:", transformedData.slice(0, 3));
       console.log("Fetched real data:", {
         timeFilter: timeFilter,
         dataPoints: transformedData.length,
@@ -92,6 +103,7 @@ export function CurrencyDrawer({
         throw new Error("No valid data received from API");
       }
 
+      console.log("Setting chart data:", transformedData);
       setChartData(transformedData);
       setIsLoadingChart(false);
       return;

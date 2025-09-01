@@ -117,7 +117,11 @@ export function CurrencyChart({
         averagePrice,
         firstPrice: data[0]?.price,
         lastPrice: data[data.length - 1]?.price,
+        sampleData: data.slice(0, 3),
+        dataType: typeof data[0]?.price,
       });
+    } else {
+      console.log("Chart received no data or empty data:", { data, dataLength: data?.length });
     }
   }, [data]); // Add data as dependency
 
