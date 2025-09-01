@@ -42,8 +42,8 @@ export function getJalaliDateRange(timeFilter: string): { start: string; end: st
   const endMonth = today.getMonth() + 1;
   const endDay = today.getDate();
   
-  const startJalali = `${currentYear}/${String(startMonth).padStart(2, '0')}/${String(startDay).padStart(2, '0')}`;
-  const endJalali = `${currentYear}/${String(endMonth).padStart(2, '0')}/${String(endDay).padStart(2, '0')}`;
+  const startJalali = `${currentYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
+  const endJalali = `${currentYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`;
   
   return { start: startJalali, end: endJalali };
 }
