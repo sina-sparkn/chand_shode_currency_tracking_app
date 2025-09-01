@@ -124,32 +124,32 @@ export async function GET() {
       });
     }
 
-    // if (data.cryptocurrency && Array.isArray(data.cryptocurrency)) {
-    //   data.cryptocurrency.forEach((item: any) => {
-    //     const config = currencyConfig[
-    //       item.symbol as keyof typeof currencyConfig
-    //     ] || {
-    //       name_en: item.name_en,
-    //       icon: item.symbol.slice(0, 2),
-    //       color: "#eab308",
-    //     };
+    if (data.cryptocurrency && Array.isArray(data.cryptocurrency)) {
+      data.cryptocurrency.forEach((item: any) => {
+        const config = currencyConfig[
+          item.symbol as keyof typeof currencyConfig
+        ] || {
+          name_en: item.name_en,
+          icon: item.symbol.slice(0, 2),
+          color: "#eab308",
+        };
 
-    //     currencies.push({
-    //       symbol: item.symbol,
-    //       name_en: config.name_en,
-    //       name: item.name,
-    //       price: item.price,
-    //       change_percent: item.change_percent,
-    //       unit: item.unit,
-    //       date: item.date,
-    //       time: item.time,
-    //       time_unix: item.time_unix,
-    //       category: "cryptocurrency" as const,
-    //       icon: config.icon,
-    //       color: config.color,
-    //     });
-    //   });
-    // }
+        currencies.push({
+          symbol: item.symbol,
+          name_en: config.name_en,
+          name: item.name,
+          price: item.price,
+          change_percent: item.change_percent,
+          unit: item.unit,
+          date: item.date,
+          time: item.time,
+          time_unix: item.time_unix,
+          category: "cryptocurrency" as const,
+          icon: config.icon,
+          color: config.color,
+        });
+      });
+    }
 
     // If no data from API, return mock data
     if (currencies.length === 0) {

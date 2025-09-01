@@ -1,43 +1,40 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
-export default function DockTabs() {
+interface DockTabsProps {
+  onTabChange: (value: string) => void;
+}
+
+export default function DockTabs({ onTabChange }: DockTabsProps) {
+  const [activeTab, setActiveTab] = useState("all");
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    onTabChange(value);
+  };
+
   return (
-    <Tabs defaultValue="tab-1" className="items-center">
-      <TabsList className="gap-1 bg-transparent">
+    <Tabs value={activeTab} onValueChange={handleTabChange} className="items-center">
+      <TabsList className="gap-1 bg-transparent w-full rounded-full flex items-center justify-evenly">
         <TabsTrigger
-          value="tab-1"
-          className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full data-[state=active]:shadow-none"
+          value="all"
+          className="data-[state=active]:bg-zinc-800 p-3 rounded-l-full rounded-r-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
         >
-          Tab 1
+          All
         </TabsTrigger>
         <TabsTrigger
-          value="tab-2"
-          className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full data-[state=active]:shadow-none"
+          value="currency-and-gold"
+          className="data-[state=active]:bg-zinc-800 p-3 rounded-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
         >
-          Tab 2
+          Currency & Gold
         </TabsTrigger>
         <TabsTrigger
-          value="tab-3"
-          className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full data-[state=active]:shadow-none"
+          value="crypto"
+          className="data-[state=active]:bg-zinc-800 p-3 rounded-r-full rounded-l-sm w-full data-[state=active]:text-primary-foreground data-[state=active]:shadow-none"
         >
-          Tab 3
+          Crypto
         </TabsTrigger>
       </TabsList>
-      <TabsContent value="tab-1">
-        <p className="text-muted-foreground p-4 text-center text-xs">
-          Content for Tab 1
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-2">
-        <p className="text-muted-foreground p-4 text-center text-xs">
-          Content for Tab 2
-        </p>
-      </TabsContent>
-      <TabsContent value="tab-3">
-        <p className="text-muted-foreground p-4 text-center text-xs">
-          Content for Tab 3
-        </p>
-      </TabsContent>
     </Tabs>
   );
 }

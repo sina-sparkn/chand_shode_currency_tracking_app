@@ -33,6 +33,7 @@ export default function HomePage() {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [activeTab, setActiveTab] = useState("all");
 
   // Placeholder data for loading state
   const placeholderCurrencies: CurrencyData[] = [
@@ -179,95 +180,126 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
+  // Filter currencies based on active tab
+  const getFilteredCurrencies = (currencies: CurrencyData[]) => {
+    switch (activeTab) {
+      case "currency-and-gold":
+        return currencies.filter(currency =>
+          currency.category === "currency" || currency.category === "gold"
+        );
+      case "crypto":
+        return currencies.filter(currency =>
+          currency.symbol === "USDT_IRT" || currency.symbol.includes("BTC") || currency.symbol.includes("ETH")
+        );
+      default:
+        return currencies; // "all" tab shows everything
+    }
+  };
+
   // Use placeholder data during loading, real data when available
   const displayCurrencies = isLoading ? placeholderCurrencies : currencies;
+  const filteredCurrencies = getFilteredCurrencies(displayCurrencies);
+
+  const handleTabChange = (tabValue: string) => {
+    setActiveTab(tabValue);
+  };
 
   return (
-    <main className="bg-background p-4" role="main">
-      <div className="max-w-4xl mx-auto">
-        {/* Offline Indicator */}
-        <OfflineIndicator />
+    <>
+      <Dock onTabChange={handleTabChange} />
 
-        {/* Header */}
-        <header className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
-              Cheghad???
-            </h1>
-            <p className="text-muted-foreground">
-              made by{" "}
-              <a
-                className="hover:underline"
-                target="_blank"
-                href="https://github.com/sina-sparkn"
-                rel="noopener noreferrer"
-                aria-label="Visit Sina Zare's GitHub profile"
-              >
-                Sina zare
-              </a>
-            </p>
-          </div>
-          <div className="flex flex-col items-end gap-2">
-            <div className="flex gap-2 item-center">
-              <ThemeToggle />
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={fetchCurrencyData}
-                disabled={isLoading}
-                className="border bg-white cursor-pointer hover:text-zinc-800 hover:dark:text-zinc-200 border-border rounded-full"
-              >
-                <RefreshCw
-                  className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-                />
-              </Button>
+      <main className="bg-background p-4" role="main">
+        <div className="max-w-4xl mx-auto">
+          {/* Offline Indicator */}
+          <OfflineIndicator />
+
+          {/* Header */}
+          <header className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+                Cheghad???
+              </h1>
+              <p className="text-muted-foreground">
+                made by{" "}
+                <a
+                  className="hover:underline"
+                  target="_blank"
+                  href="https://github.com/sina-sparkn"
+                  rel="noopener noreferrer"
+                  aria-label="Visit Sina Zare's GitHub profile"
+                >
+                  Sina zare
+                </a>
+              </p>
+              {/* Active Tab Indicator */}
+              <div className="mt-2">
+                <span className="text-sm text-muted-foreground">
+                  Showing: {activeTab === "all" ? "All Currencies" :
+                    activeTab === "currency-and-gold" ? "Currency & Gold" :
+                      "Crypto"}
+                </span>
+              </div>
             </div>
-            <PWAInstallButton />
-          </div>
-        </header>
+            <div className="flex flex-col items-end gap-2">
+              <div className="flex gap-2 item-center">
+                <ThemeToggle />
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={fetchCurrencyData}
+                  disabled={isLoading}
+                  className="border bg-white cursor-pointer hover:text-zinc-800 hover:dark:text-zinc-200 border-border rounded-full"
+                >
+                  <RefreshCw
+                    className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+                  />
+                </Button>
+              </div>
+              <PWAInstallButton />
+            </div>
+          </header>
 
-        {/* Currency Grid */}
-        <CurrencyGrid
-          currencies={displayCurrencies}
-          onCurrencySelect={setSelectedCurrency}
-          isLoading={isLoading}
-        />
+          {/* Currency Grid */}
+          <CurrencyGrid
+            currencies={filteredCurrencies}
+            onCurrencySelect={setSelectedCurrency}
+            isLoading={isLoading}
+          />
 
-        {/* Currency Detail Drawer */}
-        <CurrencyDrawer
-          currency={selectedCurrency}
-          isOpen={!!selectedCurrency}
-          onClose={() => setSelectedCurrency(null)}
-        />
+          {/* Currency Detail Drawer */}
+          <CurrencyDrawer
+            currency={selectedCurrency}
+            isOpen={!!selectedCurrency}
+            onClose={() => setSelectedCurrency(null)}
+          />
 
-        <Dock />
-
-        <footer className="mt-16 pb-20 border-t flex items-center justify-between py-5">
-          <a
-            target="_blank"
-            href="https://github.com/sina-sparkn/chand_shode_currency_tracking_app"
-            rel="noopener noreferrer"
-            aria-label="Give the project a star on GitHub"
-          >
-            <Button
-              variant={"outline"}
-              className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer hover:scale-105 transition-all origin-left"
+          <footer className="mt-16 pb-20 border-t flex items-center justify-between py-5">
+            <a
+              target="_blank"
+              href="https://github.com/sina-sparkn/chand_shode_currency_tracking_app"
+              rel="noopener noreferrer"
+              aria-label="Give the project a star on GitHub"
             >
-              Give it a Star
-              <Star className="text-yellow-500 fill-yellow-500 " />
-            </Button>
-          </a>
-          <a href="#" aria-label="Back to top">
-            <Button
-              variant={"outline"}
-              className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer"
-            >
-              back to top
-              <ArrowUp />
-            </Button>
-          </a>
-        </footer>
-      </div>
-    </main>
+              <Button
+                variant={"outline"}
+                className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer hover:scale-105 transition-all origin-left"
+              >
+                Give it a Star
+                <Star className="text-yellow-500 fill-yellow-500 " />
+              </Button>
+            </a>
+            <a href="#" aria-label="Back to top">
+              <Button
+                variant={"outline"}
+                className="rounded-full hover:text-zinc-800 hover:dark:text-zinc-200 border-border cursor-pointer"
+              >
+                back to top
+                <ArrowUp />
+              </Button>
+            </a>
+          </footer>
+        </div>
+      </main>
+    </>
   );
 }
