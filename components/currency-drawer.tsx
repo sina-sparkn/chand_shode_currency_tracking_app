@@ -231,7 +231,7 @@ export function CurrencyDrawer({
 
   if (!currency) return null;
 
-  const isPositive = currency.change_value >= 0;
+  const isPositive = currency.change_value >= 0 || currency.change_percent >= 0;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {

@@ -20,7 +20,7 @@ export function CurrencyTile({
   isLoading = false,
   index = 0,
 }: CurrencyTileProps) {
-  const isPositive = currency.change_value >= 0;
+  const isPositive = currency.change_value >= 0 || currency.change_percent >= 0;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
