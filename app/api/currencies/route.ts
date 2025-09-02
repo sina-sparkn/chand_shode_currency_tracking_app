@@ -387,9 +387,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { item, start, end } = await request.json();
-
-    // console.log("POST request received:", { item, start, end });
-
+    
     if (!item || !start || !end) {
       return NextResponse.json(
         { error: "Missing required parameters: item, start, end" },
@@ -409,41 +407,33 @@ export async function POST(request: Request) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Navasan API error response:", errorText);
-      throw new Error(
-        `Navasan API request failed: ${response.status} - ${errorText}`
-      );
+      throw new Error(`Navasan API request failed: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    // console.log("Navasan API raw response:", data);
-
+    
     // Check if data is an array and has content
     if (!Array.isArray(data) || data.length === 0) {
-      // console.log("No data received from Navasan API, returning empty array");
       return NextResponse.json([]);
     }
-
+    
     // Transform the data to match our chart format
-    const chartData = data
-      .map((item: any, index: number) => {
-        // console.log(`Processing item ${index}:`, item);
+    const chartData = data.map((item: any) => {
+      
+      // Try different possible field names for price
+      const price = parseFloat(item.close || item.price || item.value || 0);
+      const date = item.date || item.time || item.timestamp;
+      
+      return {
+        time: date,
+        price: price,
+        open: parseFloat(item.open || 0),
+        high: parseFloat(item.high || 0),
+        low: parseFloat(item.low || 0),
+        volume: parseFloat(item.volume || 0),
+      };
+    }).filter((item: any) => item.price > 0 && item.time); // Filter out invalid data
 
-        // Try different possible field names for price
-        const price = parseFloat(item.close || item.price || item.value || 0);
-        const date = item.date || item.time || item.timestamp;
-
-        return {
-          time: date,
-          price: price,
-          open: parseFloat(item.open || 0),
-          high: parseFloat(item.high || 0),
-          low: parseFloat(item.low || 0),
-          volume: parseFloat(item.volume || 0),
-        };
-      })
-      .filter((item: any) => item.price > 0 && item.time); // Filter out invalid data
-
-    // console.log("Transformed chart data:", chartData);
     return NextResponse.json(chartData);
   } catch (error) {
     console.error("Error fetching historical data:", error);

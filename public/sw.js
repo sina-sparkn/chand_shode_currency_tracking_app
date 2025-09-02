@@ -1,5 +1,5 @@
 // Dynamic cache version based on build time or deployment
-const CACHE_VERSION = 'v1.2.0'; // Update this manually for each deployment
+const CACHE_VERSION = "v1.2.0"; // Update this manually for each deployment
 const CACHE_NAME = `currency-tracker-${CACHE_VERSION}`;
 
 // Add timestamp for cache busting
@@ -13,9 +13,30 @@ const urlsToCache = [
   "/api/currencies",
 ];
 
+// Helper function to check if request should be handled by service worker
+function shouldHandleRequest(request) {
+  const url = new URL(request.url);
+
+  // Only handle HTTP/HTTPS requests
+  if (!url.protocol.startsWith("http")) {
+    return false;
+  }
+
+  // Only handle GET requests for caching
+  if (request.method !== "GET") {
+    return false;
+  }
+
+  // Only handle requests from same origin or your API
+  if (url.origin !== location.origin) {
+    return false;
+  }
+
+  return true;
+}
+
 // Install event - cache resources
 self.addEventListener("install", (event) => {
-  console.log('Service Worker installing with cache version:', CACHE_VERSION);
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(urlsToCache);
@@ -27,6 +48,11 @@ self.addEventListener("install", (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener("fetch", (event) => {
+  // Early return for requests we shouldn't handle
+  if (!shouldHandleRequest(event.request)) {
+    return; // Let the browser handle it normally
+  }
+
   const url = new URL(event.request.url);
 
   // 🔹 If request is for your API → NetworkFirst with short cache
@@ -35,10 +61,15 @@ self.addEventListener("fetch", (event) => {
       fetch(event.request)
         .then((response) => {
           // Update cache in background with short TTL
-          if (response && response.status === 200) {
+          if (response && response.status === 200 && response.ok) {
             const cloned = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, cloned);
+              // Double-check it's still a GET request before caching
+              if (event.request.method === "GET") {
+                cache.put(event.request, cloned).catch((error) => {
+                  console.warn("Failed to cache API response:", error);
+                });
+              }
             });
           }
           return response;
@@ -60,7 +91,9 @@ self.addEventListener("fetch", (event) => {
           if (response && response.ok) {
             const cloned = response.clone();
             caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, cloned);
+              cache.put(event.request, cloned).catch((error) => {
+                console.warn("Failed to cache document:", error);
+              });
             });
           }
           return response;
@@ -76,19 +109,23 @@ self.addEventListener("fetch", (event) => {
   // 🔹 For static assets (JS, CSS, images) → StaleWhileRevalidate
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // Update cache with fresh content
-        if (networkResponse && networkResponse.ok) {
-          const cloned = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, cloned);
-          });
-        }
-        return networkResponse;
-      }).catch(() => {
-        // Return cached version if network fails
-        return cachedResponse;
-      });
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          // Update cache with fresh content
+          if (networkResponse && networkResponse.ok) {
+            const cloned = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, cloned).catch((error) => {
+                console.warn("Failed to cache static asset:", error);
+              });
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // Return cached version if network fails
+          return cachedResponse;
+        });
 
       // Return cached version immediately if available, then update in background
       return cachedResponse || fetchPromise;
@@ -98,21 +135,22 @@ self.addEventListener("fetch", (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener("activate", (event) => {
-  console.log('Service Worker activating with cache version:', CACHE_VERSION);
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log("Deleting old cache:", cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      // Take control of all clients immediately
-      return self.clients.claim();
-    })
+    caches
+      .keys()
+      .then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== CACHE_NAME) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+      .then(() => {
+        // Take control of all clients immediately
+        return self.clients.claim();
+      })
   );
 });
 
@@ -167,7 +205,8 @@ async function doBackgroundSync() {
     // Sync currency data when back online
     const response = await fetch("/api/currencies");
     if (response.ok) {
-      console.log("Background sync completed");
+      // Handle successful sync
+      console.log("Background sync completed successfully");
     }
   } catch (error) {
     console.error("Background sync failed:", error);

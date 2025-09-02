@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface PWAInstallPrompt {
   prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
 interface PWAState {
@@ -22,15 +22,13 @@ export function usePWA(): PWAState {
   const [isInstallable, setIsInstallable] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
-  const [installPrompt, setInstallPrompt] = useState<PWAInstallPrompt | null>(
-    null
-  );
+  const [installPrompt, setInstallPrompt] = useState<PWAInstallPrompt | null>(null);
   const [hasUpdate, setHasUpdate] = useState(false);
 
   useEffect(() => {
     // Check if app is installed
     const checkInstalled = () => {
-      if (window.matchMedia("(display-mode: standalone)").matches) {
+      if (window.matchMedia('(display-mode: standalone)').matches) {
         setIsInstalled(true);
       }
     };
@@ -62,22 +60,17 @@ export function usePWA(): PWAState {
 
     // Register service worker with update detection
     const registerServiceWorker = async () => {
-      if ("serviceWorker" in navigator) {
+      if ('serviceWorker' in navigator) {
         try {
-          const registration = await navigator.serviceWorker.register("/sw.js");
-          // console.log('SW registered: ', registration);
+          const registration = await navigator.serviceWorker.register('/sw.js');
 
           // Check for updates
-          registration.addEventListener("updatefound", () => {
+          registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
             if (newWorker) {
-              newWorker.addEventListener("statechange", () => {
-                if (
-                  newWorker.state === "installed" &&
-                  navigator.serviceWorker.controller
-                ) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                   setHasUpdate(true);
-                  // console.log('New service worker available');
                 }
               });
             }
@@ -85,14 +78,15 @@ export function usePWA(): PWAState {
 
           // Handle service worker updates
           let refreshing = false;
-          navigator.serviceWorker.addEventListener("controllerchange", () => {
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
             if (!refreshing) {
               refreshing = true;
               window.location.reload();
             }
           });
+
         } catch (registrationError) {
-          // console.log('SW registration failed: ', registrationError);
+          console.error('SW registration failed: ', registrationError);
         }
       }
     };
@@ -102,23 +96,20 @@ export function usePWA(): PWAState {
     registerServiceWorker();
 
     // Event listeners
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-    window.addEventListener("appinstalled", handleAppInstalled);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
 
     // Check initial online status
     setIsOnline(navigator.onLine);
     setIsOffline(!navigator.onLine);
 
     return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener(
-        "beforeinstallprompt",
-        handleBeforeInstallPrompt
-      );
-      window.removeEventListener("appinstalled", handleAppInstalled);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, []);
 
@@ -127,19 +118,17 @@ export function usePWA(): PWAState {
       try {
         await installPrompt.prompt();
         const choiceResult = await installPrompt.userChoice;
-        if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the install prompt");
+        if (choiceResult.outcome === 'accepted') {
         } else {
-          console.log("User dismissed the install prompt");
         }
       } catch (error) {
-        console.error("Error showing install prompt:", error);
+        console.error('Error showing install prompt:', error);
       }
     }
   };
 
   const checkForUpdate = async () => {
-    if ("serviceWorker" in navigator) {
+    if ('serviceWorker' in navigator) {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         await registration.update();
@@ -148,10 +137,10 @@ export function usePWA(): PWAState {
   };
 
   const updateApp = () => {
-    if ("serviceWorker" in navigator) {
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistration().then((registration) => {
         if (registration && registration.waiting) {
-          registration.waiting.postMessage({ type: "SKIP_WAITING" });
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
         }
       });
     }

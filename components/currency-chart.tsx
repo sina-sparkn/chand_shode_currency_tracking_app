@@ -37,10 +37,8 @@ function CustomTooltipWithHover({ active, payload, onHover }: any) {
   useEffect(() => {
     if (active && payload && payload.length > 0) {
       const price = payload[0].payload.price;
-      // console.log("Tooltip hover - price:", price);
       onHover?.(price);
     } else if (!active) {
-      // console.log("Tooltip not active, clearing hover");
       onHover?.(null);
     }
   }, [active, payload, onHover]);
@@ -53,26 +51,16 @@ function CustomTooltipWithHover({ active, payload, onHover }: any) {
 
   // Format the date to show as "Aug 3" or handle Jalali dates
   const formatDate = (dateString: string) => {
-    if (!dateString) return "N/A";
+    if (!dateString) return 'N/A';
 
     try {
       // Check if it's a Jalali date (YYYY-MM-DD format)
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
         // For Jalali dates, show as "MMM DD" format
-        const [year, month, day] = dateString.split("-");
+        const [year, month, day] = dateString.split('-');
         const monthNames = [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec",
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
         return `${monthNames[parseInt(month) - 1]} ${parseInt(day)}`;
       }
@@ -81,16 +69,16 @@ function CustomTooltipWithHover({ active, payload, onHover }: any) {
       const date = new Date(dateString);
       if (isNaN(date.getTime())) {
         // If parsing fails, try to extract date from string
-        return dateString.split("T")[0] || dateString;
+        return dateString.split('T')[0] || dateString;
       }
 
-      return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
       });
     } catch (error) {
-      console.error("Error formatting date:", error);
-      return dateString || "N/A";
+      console.error('Error formatting date:', error);
+      return dateString || 'N/A';
     }
   };
 
@@ -105,7 +93,7 @@ function CustomTooltipWithHover({ active, payload, onHover }: any) {
           >
             <div className="flex flex-1 justify-between leading-none items-center">
               <span className="text-muted-foreground">
-                {item.name || "Price"}
+                {item.name || 'Price'}
               </span>
               <span className="text-foreground font-mono font-medium tabular-nums ml-2">
                 {item.value?.toLocaleString()}
@@ -135,16 +123,9 @@ export function CurrencyChart({
       const averagePrice =
         data.reduce((sum, item) => sum + item.price, 0) / data.length;
       setAveragePrice(averagePrice);
-      // console.log("Chart data updated:", {
-      //   dataPoints: data.length,
-      //   averagePrice,
-      //   firstPrice: data[0]?.price,
-      //   lastPrice: data[data.length - 1]?.price,
-      //   sampleData: data.slice(0, 3),
-      //   dataType: typeof data[0]?.price,
-      // });
+
     } else {
-      // console.log("Chart received no data or empty data:", { data, dataLength: data?.length });
+
     }
   }, [data]); // Add data as dependency
 
@@ -168,7 +149,7 @@ export function CurrencyChart({
             content={<CustomTooltipWithHover onHover={onHover} />}
             trigger="hover"
             isAnimationActive={true}
-            wrapperStyle={{ pointerEvents: "auto" }}
+            wrapperStyle={{ pointerEvents: 'auto' }}
           />
           <defs>
             <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
