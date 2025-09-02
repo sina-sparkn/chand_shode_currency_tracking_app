@@ -4,7 +4,7 @@ const API_KEY = "BKW3R7AAPbusQ1Mru4nNJkLQ3fiZlmp7";
 const API_URL = `https://BrsApi.ir/Api/Market/Gold_Currency.php?key=${API_KEY}`;
 
 // New API for historical data
-const NAVASAN_API_KEY = "freeJJJetPy6xcS9nnSGp4bxCucXeI6f";
+const NAVASAN_API_KEY = "freeouLiZVV6WCAfkS7BmmJ7hC0aAxSO";
 const NAVASAN_API_URL = "http://api.navasan.tech/ohlcSearch/";
 
 const currencyConfig = {
