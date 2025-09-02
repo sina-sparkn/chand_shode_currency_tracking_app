@@ -68,7 +68,7 @@ Now open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🛠️ Built With
+## Built With
 - [Next.js](https://nextjs.org/) – React framework
 - [Tailwind CSS](https://tailwindcss.com/) – Styling
 - [Shadcn UI](https://ui.shadcn.com/) – Components
@@ -117,7 +117,7 @@ Simple, useful, always up-to-date, and now with **PWA support** for the best use
 
 # چه‌قدر؟؟؟ - ردیاب ارز PWA
 
-اپلیکیشن ساده و مدرن **ردیاب قیمت ارز** ساخته‌شده برای کاربران ایرانی 🇮🇷 با پشتیبانی **Progressive Web App (PWA)**.  
+اپلیکیشن ساده و مدرن **ردیاب قیمت ارز** ساخته‌شده برای کاربران ایرانی با پشتیبانی **Progressive Web App (PWA)**.  
 چه‌قدر؟؟؟ به شما کمک می‌کند تا به‌سرعت **آخرین نرخ ارزها** را با به‌روزرسانی لحظه‌ای بررسی کنید.
 
 ---
