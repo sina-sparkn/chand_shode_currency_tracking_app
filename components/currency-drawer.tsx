@@ -316,7 +316,11 @@ export function CurrencyDrawer({
                 >
                   <div className="flex gap-1">
                     {formatPrice(hoveredPrice || currency.price)}
-                    {hoveredPrice ? "" : "$"}
+                    {currency.category === "cryptocurrency"
+                      ? hoveredPrice
+                        ? ""
+                        : "$"
+                      : ""}
                   </div>
                   {hoveredPrice && (
                     <motion.div
