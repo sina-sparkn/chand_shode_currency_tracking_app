@@ -184,17 +184,15 @@ export default function HomePage() {
   // Filter currencies based on active tab
   const getFilteredCurrencies = (currencies: CurrencyData[]) => {
     switch (activeTab) {
-      case "currency-and-gold":
+      case "currency":
         return currencies.filter(
-          (currency) =>
-            currency.category === "currency" || currency.category === "gold"
+          (currency) => currency.category === "currency"
         );
+      case "gold":
+        return currencies.filter((currency) => currency.category === "gold");
       case "crypto":
         return currencies.filter(
-          (currency) =>
-            currency.category === "cryptocurrency" ||
-            currency.symbol.includes("BTC") ||
-            currency.symbol.includes("ETH")
+          (currency) => currency.category === "cryptocurrency"
         );
       default:
         return currencies; // "all" tab shows everything
