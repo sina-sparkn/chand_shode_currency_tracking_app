@@ -44,13 +44,13 @@ export function CurrencyDrawer({
   }, [currency, selectedTimeFilter, isOpen]);
 
   // Debug: Monitor chartData changes
-  useEffect(() => {
-    console.log("Chart data state changed:", {
-      length: chartData.length,
-      sample: chartData.slice(0, 3),
-      isEmpty: chartData.length === 0
-    });
-  }, [chartData]);
+  // useEffect(() => {
+  //   console.log("Chart data state changed:", {
+  //     length: chartData.length,
+  //     sample: chartData.slice(0, 3),
+  //     isEmpty: chartData.length === 0
+  //   });
+  // }, [chartData]);
 
   const fetchChartData = async () => {
     if (!currency) return;
@@ -67,7 +67,7 @@ export function CurrencyDrawer({
       const { start, end } = getJalaliDateRange(timeFilter);
       const item = mapCurrencyToNavasanItem(currency.symbol);
 
-      console.log("Fetching data for:", { symbol: currency.symbol, item, start, end, timeFilter });
+      // console.log("Fetching data for:", { symbol: currency.symbol, item, start, end, timeFilter });
 
       const response = await fetch("/api/currencies", {
         method: "POST",
@@ -83,29 +83,31 @@ export function CurrencyDrawer({
 
       const data = await response.json();
 
-      console.log("Raw API response:", data);
-      console.log("Sample API item:", data[0]);
+      // console.log("Raw API response:", data);
+      // console.log("Sample API item:", data[0]);
 
       // Transform the data to match our chart format
-      const transformedData = data.map((item: any) => ({
-        time: item.time, // Use the time field directly from API response
-        price: item.price, // Use the price field directly from API response
-      })).filter((item: any) => item.price > 0 && item.time); // Filter out invalid data
+      const transformedData = data
+        .map((item: any) => ({
+          time: item.time, // Use the time field directly from API response
+          price: item.price, // Use the price field directly from API response
+        }))
+        .filter((item: any) => item.price > 0 && item.time); // Filter out invalid data
 
-      console.log("Transformed data sample:", transformedData.slice(0, 3));
-      console.log("Fetched real data:", {
-        timeFilter: timeFilter,
-        dataPoints: transformedData.length,
-        firstPrice: transformedData[0]?.price,
-        lastPrice: transformedData[transformedData.length - 1]?.price,
-        sampleData: transformedData.slice(0, 3),
-      });
+      // console.log("Transformed data sample:", transformedData.slice(0, 3));
+      // console.log("Fetched real data:", {
+      //   timeFilter: timeFilter,
+      //   dataPoints: transformedData.length,
+      //   firstPrice: transformedData[0]?.price,
+      //   lastPrice: transformedData[transformedData.length - 1]?.price,
+      //   sampleData: transformedData.slice(0, 3),
+      // });
 
       if (transformedData.length === 0) {
         throw new Error("No valid data received from API");
       }
 
-      console.log("Setting chart data:", transformedData);
+      // console.log("Setting chart data:", transformedData);
       setChartData(transformedData);
       setIsLoadingChart(false);
       return;
@@ -115,13 +117,16 @@ export function CurrencyDrawer({
 
     // Fallback to mock data if API fails or returns no data
     try {
-      const mockData = generateMockChartData(currency.price, selectedTimeFilter);
-      console.log("Using mock data as fallback:", {
-        timeFilter: selectedTimeFilter,
-        dataPoints: mockData.length,
-        firstPrice: mockData[0]?.price,
-        lastPrice: mockData[mockData.length - 1]?.price,
-      });
+      const mockData = generateMockChartData(
+        currency.price,
+        selectedTimeFilter
+      );
+      // console.log("Using mock data as fallback:", {
+      //   timeFilter: selectedTimeFilter,
+      //   dataPoints: mockData.length,
+      //   firstPrice: mockData[0]?.price,
+      //   lastPrice: mockData[mockData.length - 1]?.price,
+      // });
       setChartData(mockData);
     } catch (error) {
       console.error("Failed to generate mock data:", error);
@@ -135,31 +140,31 @@ export function CurrencyDrawer({
     currentPrice: number,
     timeFilter: TimeFilter
   ) => {
-    console.log("Generating mock data for:", { currentPrice, timeFilter });
+    // console.log("Generating mock data for:", { currentPrice, timeFilter });
 
     // Define the overall time span for the complete trend
     const totalTimeSpan = 365 * 5; // 5 years of data
     const startPrice = currentPrice / 15; // Start at 1/15 of current price
 
-    console.log("Price range:", {
-      startPrice,
-      currentPrice,
-      totalGrowth: currentPrice - startPrice,
-    });
+    // console.log("Price range:", {
+    //   startPrice,
+    //   currentPrice,
+    //   totalGrowth: currentPrice - startPrice,
+    // });
 
     // Calculate data points for each time filter
     const dataPoints =
       timeFilter === "1D"
         ? 24
         : timeFilter === "1W"
-          ? 7
-          : timeFilter === "1M"
-            ? 30
-            : timeFilter === "1Y"
-              ? 365
-              : timeFilter === "5Y"
-                ? 1825
-                : 3650; // All time
+        ? 7
+        : timeFilter === "1M"
+        ? 30
+        : timeFilter === "1Y"
+        ? 365
+        : timeFilter === "5Y"
+        ? 1825
+        : 3650; // All time
 
     const data = [];
 
@@ -249,12 +254,12 @@ export function CurrencyDrawer({
           price: Math.round(finalPrice * 100) / 100,
         });
       }
-      console.log("Returning daily data:", {
-        timeFilter,
-        dataPoints: dailyData.length,
-        firstPrice: dailyData[0]?.price,
-        lastPrice: dailyData[dailyData.length - 1]?.price,
-      });
+      // console.log("Returning daily data:", {
+      //   timeFilter,
+      //   dataPoints: dailyData.length,
+      //   firstPrice: dailyData[0]?.price,
+      //   lastPrice: dailyData[dailyData.length - 1]?.price,
+      // });
       return dailyData;
     } else if (timeFilter === "1W") {
       // For weekly view, interpolate daily data from the weekly trend
@@ -277,22 +282,22 @@ export function CurrencyDrawer({
           price: Math.round(finalPrice * 100) / 100,
         });
       }
-      console.log("Returning weekly data:", {
-        timeFilter,
-        dataPoints: weeklyData.length,
-        firstPrice: weeklyData[0]?.price,
-        lastPrice: weeklyData[weeklyData.length - 1]?.price,
-      });
+      // console.log("Returning weekly data:", {
+      //   timeFilter,
+      //   dataPoints: weeklyData.length,
+      //   firstPrice: weeklyData[0]?.price,
+      //   lastPrice: weeklyData[weeklyData.length - 1]?.price,
+      // });
       return weeklyData;
     } else {
       // For longer periods, return the relevant portion of the complete trend
       const result = relevantData;
-      console.log("Returning longer period data:", {
-        timeFilter,
-        dataPoints: result.length,
-        firstPrice: result[0]?.price,
-        lastPrice: result[result.length - 1]?.price,
-      });
+      // console.log("Returning longer period data:", {
+      //   timeFilter,
+      //   dataPoints: result.length,
+      //   firstPrice: result[0]?.price,
+      //   lastPrice: result[result.length - 1]?.price,
+      // });
       return result;
     }
   };
@@ -328,8 +333,9 @@ export function CurrencyDrawer({
                 <img
                   src={currency.icon}
                   alt={`${currency.symbol} icon`}
-                  className={`${currency.category === "cryptocurrency" ? "" : "min-w-14"
-                    } "h-full"`}
+                  className={`${
+                    currency.category === "cryptocurrency" ? "" : "min-w-14"
+                  } "h-full"`}
                 />
               ) : (
                 <span>{currency.icon}</span>
@@ -390,9 +396,7 @@ export function CurrencyDrawer({
             </div>
             <div className="text-xs text-muted-foreground">
               <AnimatePresence mode="wait">
-                <span>
-                  {`Last updated: ${currency.date} ${currency.time}`}
-                </span>
+                <span>{`Last updated: ${currency.date} ${currency.time}`}</span>
               </AnimatePresence>
             </div>
           </div>
@@ -405,7 +409,9 @@ export function CurrencyDrawer({
                 <div className="h-64 bg-muted/20 rounded-lg animate-pulse flex items-center justify-center">
                   <div className="text-center space-y-2 flex gap-1.5">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                    <p className="text-sm text-muted-foreground">Fetching historical data</p>
+                    <p className="text-sm text-muted-foreground">
+                      Fetching historical data
+                    </p>
                   </div>
                 </div>
               </div>
@@ -428,8 +434,12 @@ export function CurrencyDrawer({
                   <div className="w-12 h-12 mx-auto bg-muted/20 rounded-full flex items-center justify-center">
                     <span className="text-2xl">📊</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">No chart data available</p>
-                  <p className="text-xs text-muted-foreground">Try selecting a different time period</p>
+                  <p className="text-sm text-muted-foreground">
+                    No chart data available
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Try selecting a different time period
+                  </p>
                 </div>
               </div>
             )}
