@@ -154,7 +154,7 @@ export function CurrencyChart({
           <CartesianGrid vertical={false} />
           <ChartTooltip
             cursor={false}
-            content={<CustomTooltipWithHover onHover />}
+            content={<CustomTooltipWithHover onHover={onHover} />}
             trigger="hover"
             isAnimationActive={true}
             wrapperStyle={{ pointerEvents: "auto" }}
