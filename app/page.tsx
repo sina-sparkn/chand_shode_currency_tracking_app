@@ -208,10 +208,9 @@ export default function HomePage() {
       setTabLoading(true);
       setActiveTab(tabValue);
 
-      // Simulate a brief loading state for tab switch
       setTimeout(() => {
         setTabLoading(false);
-      }, 500); // Increased to 500ms for better visibility
+      }, 0);
     }
   };
 
